@@ -1,0 +1,7 @@
+__pycache__/ 
+*.pyc 
+.env 
+scan_result.json 
+zap_raw_output.json 
+*.egg-info/ 
+.venv/ 
