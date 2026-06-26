@@ -96,6 +96,7 @@ class ScanStatusResponse(BaseModel):
     findings:     List[dict]     # List[Finding] — using dict for flexibility
     summary:      dict           # ScanSummary
     error:        Optional[str]
+    executive_summary: Optional[str] = ""
 
 
 class ScanListResponse(BaseModel):

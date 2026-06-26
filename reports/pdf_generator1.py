@@ -137,97 +137,87 @@ class PDFGenerator:
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
     body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #2C3E50; font-size: 13px; }}
 
-    /* Cover page */
+    /* Cover page — xhtml2pdf compatible (no flex, no gradient, no rgba) */
     .cover {{
         page-break-after: always;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        background-color: #1a1a2e;
         padding: 80px 60px;
         color: white;
     }}
     .cover-badge {{
-        display: inline-block;
-        background: {risk_color};
+        display: block;
+        background-color: {risk_color};
         color: white;
         padding: 6px 16px;
-        border-radius: 20px;
         font-size: 13px;
         font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 30px;
-        width: fit-content;
+        margin-bottom: 20px;
+        width: 200px;
     }}
     .cover h1 {{
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 700;
-        line-height: 1.2;
-        margin-bottom: 16px;
+        margin-bottom: 10px;
         color: #FFFFFF;
     }}
     .cover h2 {{
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
         color: #A8C6FA;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }}
     .cover-meta {{
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        padding: 24px;
-        margin-top: 40px;
+        background-color: #2C3E6E;
+        padding: 20px;
+        margin-top: 30px;
     }}
-    .cover-meta-row {{
-        display: flex;
-        margin-bottom: 12px;
+    .cover-meta table {{
+        width: 100%;
+        border-collapse: collapse;
+    }}
+    .cover-meta td {{
+        padding: 6px 4px;
         font-size: 13px;
+        color: #FFFFFF;
+        border: none;
     }}
-    .cover-meta-label {{
+    .cover-meta .label {{
         color: #A8C6FA;
-        width: 140px;
-        flex-shrink: 0;
         font-weight: 600;
+        width: 140px;
     }}
-    .cover-meta-value {{ color: #FFFFFF; }}
 
-    /* Summary boxes */
+    /* Summary section */
     .summary-section {{
         page-break-after: always;
-        padding: 50px 50px 30px;
+        padding: 40px 40px 20px;
     }}
     .section-title {{
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
         color: #1a1a2e;
         border-bottom: 3px solid #0f3460;
-        padding-bottom: 10px;
-        margin-bottom: 24px;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
     }}
     .stat-boxes {{
-        display: flex;
-        gap: 16px;
-        margin-bottom: 32px;
+        width: 100%;
+        margin-bottom: 24px;
     }}
     .stat-box {{
-        flex: 1;
-        border-radius: 10px;
-        padding: 20px;
+        padding: 16px;
         text-align: center;
+        width: 18%;
     }}
     .stat-number {{
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 700;
-        line-height: 1;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
     }}
     .stat-label {{
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 11px;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
     }}
     .exec-summary {{
         background: #F8F9FA;
@@ -276,26 +266,13 @@ class PDFGenerator:
     <h1>Vulnerability Assessment Report</h1>
     <h2>AI-Powered Security Analysis</h2>
     <div class="cover-meta">
-        <div class="cover-meta-row">
-            <span class="cover-meta-label">Target URL</span>
-            <span class="cover-meta-value">{target_url}</span>
-        </div>
-        <div class="cover-meta-row">
-            <span class="cover-meta-label">Scan Date</span>
-            <span class="cover-meta-value">{date_str}</span>
-        </div>
-        <div class="cover-meta-row">
-            <span class="cover-meta-label">Scan ID</span>
-            <span class="cover-meta-value" style="font-size:11px; opacity:0.8;">{scan_id}</span>
-        </div>
-        <div class="cover-meta-row">
-            <span class="cover-meta-label">Total Findings</span>
-            <span class="cover-meta-value">{summary.get('total', 0)}</span>
-        </div>
-        <div class="cover-meta-row" style="margin-bottom:0;">
-            <span class="cover-meta-label">Powered By</span>
-            <span class="cover-meta-value">OWASP ZAP + Groq AI (Llama 3.3 70B)</span>
-        </div>
+        <table>
+            <tr><td class="label">Target URL</td><td>{target_url}</td></tr>
+            <tr><td class="label">Scan Date</td><td>{date_str}</td></tr>
+            <tr><td class="label">Scan ID</td><td style="font-size:11px;">{scan_id}</td></tr>
+            <tr><td class="label">Total Findings</td><td>{summary.get('total', 0)}</td></tr>
+            <tr><td class="label">Powered By</td><td>OWASP ZAP + Groq AI (Llama 3.3 70B)</td></tr>
+        </table>
     </div>
 </div>
 
@@ -303,29 +280,31 @@ class PDFGenerator:
 <div class="summary-section">
     <div class="section-title">Executive Summary</div>
 
-    <!-- Stat boxes -->
-    <div class="stat-boxes">
-        <div class="stat-box" style="background:#FFE5E5;">
-            <div class="stat-number" style="color:#7B0000;">{summary.get('critical', 0)}</div>
-            <div class="stat-label" style="color:#7B0000;">Critical</div>
-        </div>
-        <div class="stat-box" style="background:#FDECEA;">
-            <div class="stat-number" style="color:#C0392B;">{summary.get('high', 0)}</div>
-            <div class="stat-label" style="color:#C0392B;">High</div>
-        </div>
-        <div class="stat-box" style="background:#FEF3E2;">
-            <div class="stat-number" style="color:#E67E22;">{summary.get('medium', 0)}</div>
-            <div class="stat-label" style="color:#E67E22;">Medium</div>
-        </div>
-        <div class="stat-box" style="background:#EBF5FB;">
-            <div class="stat-number" style="color:#2980B9;">{summary.get('low', 0)}</div>
-            <div class="stat-label" style="color:#2980B9;">Low</div>
-        </div>
-        <div class="stat-box" style="background:#F0F0F0;">
-            <div class="stat-number" style="color:#2C3E50;">{summary.get('total', 0)}</div>
-            <div class="stat-label" style="color:#2C3E50;">Total</div>
-        </div>
-    </div>
+    <!-- Stat boxes using table -->
+    <table class="stat-boxes">
+        <tr>
+            <td class="stat-box" style="background-color:#FFE5E5;">
+                <div class="stat-number" style="color:#7B0000;">{summary.get('critical', 0)}</div>
+                <div class="stat-label" style="color:#7B0000;">Critical</div>
+            </td>
+            <td class="stat-box" style="background-color:#FDECEA;">
+                <div class="stat-number" style="color:#C0392B;">{summary.get('high', 0)}</div>
+                <div class="stat-label" style="color:#C0392B;">High</div>
+            </td>
+            <td class="stat-box" style="background-color:#FEF3E2;">
+                <div class="stat-number" style="color:#E67E22;">{summary.get('medium', 0)}</div>
+                <div class="stat-label" style="color:#E67E22;">Medium</div>
+            </td>
+            <td class="stat-box" style="background-color:#EBF5FB;">
+                <div class="stat-number" style="color:#2980B9;">{summary.get('low', 0)}</div>
+                <div class="stat-label" style="color:#2980B9;">Low</div>
+            </td>
+            <td class="stat-box" style="background-color:#F0F0F0;">
+                <div class="stat-number" style="color:#2C3E50;">{summary.get('total', 0)}</div>
+                <div class="stat-label" style="color:#2C3E50;">Total</div>
+            </td>
+        </tr>
+    </table>
 
     <!-- AI Executive Summary -->
     <div class="exec-summary">{exec_summary}</div>
@@ -396,7 +375,6 @@ class PDFGenerator:
         html_content = self._build_html(scan_data)
         with open(str(output_path), "wb") as pdf_file:
             pisa.CreatePDF(html_content, dest=pdf_file)
-
         logger.info(f"PDF saved to: {output_path}")
         return str(output_path)
 
@@ -433,3 +411,4 @@ if __name__ == "__main__":
     generator = PDFGenerator(output_dir="reports/output")
     pdf_path = generator.generate(raw)
     print(f"\nPDF report generated: {pdf_path}")
+    print("Open it to see the full report!")

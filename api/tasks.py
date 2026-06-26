@@ -64,9 +64,13 @@ def run_scan_task(scan_id: str, target_url: str):
 
         # ── Step 2: AI Analysis (Phase 2 placeholder) ─────
         # findings = ai_analyzer.enrich(findings)
-        # Uncomment above in Phase 2 when Groq integration is ready.
-        # For now findings go straight to store with empty recommendation fields.
+        from ai.analyzer import AIAnalyzer
+        from dotenv import load_dotenv
+        load_dotenv()
 
+        analyzer = AIAnalyzer()
+        findings, executive_summary = analyzer.enrich(findings, target_url)
+        scan_store[scan_id]["executive_summary"] = executive_summary
         # ── Step 3: Store results ─────────────────────────
         scan_store[scan_id].update({
             "status":       ScanStatus.COMPLETED,

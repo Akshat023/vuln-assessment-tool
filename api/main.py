@@ -93,6 +93,7 @@ def create_scan(request: ScanRequest, background_tasks: BackgroundTasks):
         "completed_at": None,
         "findings":   [],
         "summary":    {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0},
+        "executive_summary": "",
         "error":      None,
     }
 
