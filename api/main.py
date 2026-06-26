@@ -18,6 +18,9 @@ Run:
 
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from reports.pdf_generator import PDFGenerator
+from reports.excel_generator import ExcelGenerator
 from datetime import datetime
 from typing import Optional
 import uuid
@@ -141,3 +144,26 @@ def delete_scan(scan_id: str):
         raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
     del scan_store[scan_id]
     return {"message": f"Scan {scan_id} deleted"}
+
+
+@app.get("/scans/{scan_id}/report/pdf", tags=["Reports"])
+def download_pdf(scan_id: str):
+    scan = scan_store.get(scan_id)
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+    if scan["status"] != "completed":
+        raise HTTPException(status_code=400, detail="Scan not completed yet")
+    generator = PDFGenerator()
+    path = generator.generate(scan, output_filename=f"report_{scan_id}.pdf")
+    return FileResponse(path, media_type="application/pdf", filename=f"report_{scan_id}.pdf")
+
+@app.get("/scans/{scan_id}/report/excel", tags=["Reports"])
+def download_excel(scan_id: str):
+    scan = scan_store.get(scan_id)
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+    if scan["status"] != "completed":
+        raise HTTPException(status_code=400, detail="Scan not completed yet")
+    generator = ExcelGenerator()
+    path = generator.generate(scan, output_filename=f"report_{scan_id}.xlsx")
+    return FileResponse(path, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=f"report_{scan_id}.xlsx")
