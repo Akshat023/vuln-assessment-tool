@@ -1,91 +1,81 @@
 """
-Tasks Module
-============
-Background task that runs the full scan pipeline.
-
-Phase 1: Uses FastAPI BackgroundTasks (simple, no extra infrastructure)
-Phase 2: Replace with Celery + Redis for production async queue
-
-The scan pipeline:
-    1. ZAP spider + active scan
-    2. CVSS + OWASP mapping (done inside ZAPScanner)
-    3. AI analysis — remediation + business impact (Phase 2, Groq API)
-    4. Store results
+Tasks Module - Redis-backed scan store
+=======================================
+Uses Redis to store scan state so both FastAPI and Celery workers
+share the same data. This fixes the separate-process memory problem.
 """
 
+import json
 import logging
+import redis
 from datetime import datetime
 from api.models import ScanStatus
 
 logger = logging.getLogger(__name__)
 
 # ──────────────────────────────────────────────
-# In-memory scan store (Phase 1)
-# Phase 2: replace with PostgreSQL via SQLAlchemy
+# Redis client — shared between FastAPI + Celery
 # ──────────────────────────────────────────────
-scan_store: dict = {}
+redis_client = redis.Redis(host="localhost", port=6379, db=1, decode_responses=True)
+
+SCAN_TTL = 60 * 60 * 24  # 24 hours
+
+
+class RedisScanStore:
+    """
+    Dict-like interface backed by Redis.
+    Stores each scan as a JSON string under key: scan:{scan_id}
+    """
+
+    def __getitem__(self, scan_id: str) -> dict:
+        data = redis_client.get(f"scan:{scan_id}")
+        if data is None:
+            raise KeyError(scan_id)
+        return json.loads(data)
+
+    def __setitem__(self, scan_id: str, value: dict):
+        redis_client.setex(f"scan:{scan_id}", SCAN_TTL, json.dumps(value, default=str))
+
+    def __contains__(self, scan_id: str) -> bool:
+        return redis_client.exists(f"scan:{scan_id}") > 0
+
+    def __delitem__(self, scan_id: str):
+        redis_client.delete(f"scan:{scan_id}")
+
+    def get(self, scan_id: str, default=None):
+        try:
+            return self[scan_id]
+        except KeyError:
+            return default
+
+    def update_fields(self, scan_id: str, fields: dict):
+        """Update specific fields in a scan record."""
+        try:
+            current = self[scan_id]
+            current.update(fields)
+            self[scan_id] = current
+        except KeyError:
+            logger.error(f"Scan {scan_id} not found in Redis")
+
+    def values(self):
+        """Return all scan records."""
+        keys = redis_client.keys("scan:*")
+        results = []
+        for key in keys:
+            data = redis_client.get(key)
+            if data:
+                results.append(json.loads(data))
+        return results
+
+
+# Global store instance — imported by both FastAPI and Celery
+scan_store = RedisScanStore()
 
 
 def run_scan_task(scan_id: str, target_url: str):
     """
-    Main scan pipeline. Called as a background task by FastAPI.
-    
-    Args:
-        scan_id:    Unique scan identifier
-        target_url: URL to scan
+    Kept for backward compatibility.
+    In production, Celery task is used instead.
     """
-    logger.info(f"[Task] Starting scan pipeline | scan_id={scan_id} | url={target_url}")
-
-    # Update status to running
-    scan_store[scan_id]["status"] = ScanStatus.RUNNING
-
-    try:
-        # ── Step 1: ZAP Scan ──────────────────────────────
-        from scanner.modules.zap_scanner import ZAPScanner
-
-        scanner = ZAPScanner(
-            zap_url="http://localhost:8080",
-            spider_timeout=300,
-            ascan_timeout=1800,
-            poll_interval=15,
-        )
-
-        result = scanner.run_full_scan(
-            target_url=target_url,
-            scan_id=scan_id,
-            skip_active_scan=False,  # set True for quick testing
-        )
-
-        if result["status"] == "failed":
-            raise Exception("ZAP scan returned failed status")
-
-        findings = result["findings"]
-        summary  = result["summary"]
-
-        # ── Step 2: AI Analysis (Phase 2 placeholder) ─────
-        # findings = ai_analyzer.enrich(findings)
-        from ai.analyzer import AIAnalyzer
-        from dotenv import load_dotenv
-        load_dotenv()
-
-        analyzer = AIAnalyzer()
-        findings, executive_summary = analyzer.enrich(findings, target_url)
-        scan_store[scan_id]["executive_summary"] = executive_summary
-        # ── Step 3: Store results ─────────────────────────
-        scan_store[scan_id].update({
-            "status":       ScanStatus.COMPLETED,
-            "completed_at": datetime.utcnow().isoformat(),
-            "findings":     findings,
-            "summary":      summary,
-            "error":        None,
-        })
-
-        logger.info(f"[Task] Scan complete | scan_id={scan_id} | findings={summary['total']}")
-
-    except Exception as e:
-        logger.error(f"[Task] Scan failed | scan_id={scan_id} | error={e}")
-        scan_store[scan_id].update({
-            "status":       ScanStatus.FAILED,
-            "completed_at": datetime.utcnow().isoformat(),
-            "error":        str(e),
-        })
+    from api.celery_tasks import run_scan_celery
+    run_scan_celery.delay(scan_id, target_url)

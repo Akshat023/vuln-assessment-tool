@@ -67,7 +67,7 @@ def root():
 
 
 @app.post("/scans", response_model=ScanResponse, tags=["Scans"])
-def create_scan(request: ScanRequest, background_tasks: BackgroundTasks):
+def create_scan(request: ScanRequest ):
     """
     Submit a URL for vulnerability scanning.
     
@@ -102,7 +102,8 @@ def create_scan(request: ScanRequest, background_tasks: BackgroundTasks):
 
     # Run scan in background (Phase 1: no Celery yet — uses FastAPI BackgroundTasks)
     # In Phase 2 this becomes: celery_task.delay(scan_id, target_url)
-    background_tasks.add_task(run_scan_task, scan_id, target_url)
+    from api.celery_tasks import run_scan_celery
+    run_scan_celery.delay(scan_id, target_url)
 
     return ScanResponse(
         scan_id=scan_id,
