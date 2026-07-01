@@ -1,0 +1,41 @@
+{
+  "scan_id": "242922fc-d50a-446b-97a3-174131c480e0",
+  "target": "http://localhost:8888",
+  "status": "completed",
+  "findings": [
+    {
+      "vuln_id": "50133a73-69ab-46f2-9311-fc9643eb6a98",
+      "scan_id": "242922fc-d50a-446b-97a3-174131c480e0",
+      "tool": "tech_fingerprinter",
+      "plugin_id": "tech_apache_version",
+      "vuln_type": "Technology Version Disclosure (Apache)",
+      "owasp_category": "A05:2021 - Security Misconfiguration",
+      "cvss_score": 3.1,
+      "severity": "Low",
+      "confidence": "High",
+      "evidence": "Apache 2.4.25 detected via response headers",
+      "affected_url": "http://localhost:8888",
+      "method": "GET",
+      "param": "",
+      "attack": "",
+      "description": "The server discloses it is running Apache version 2.4.25. This information helps attackers identify known vulnerabilities for this specific version.",
+      "solution": "Configure Apache to suppress version information. Suppress the Server/X-Powered-By headers.",
+      "cwe_id": "497",
+      "recommendation": "Hide Apache version disclosure in server configuration.",
+      "business_impact": "Version disclosure aids attackers in identifying and exploiting known CVEs for the specific software version in use."
+    }
+  ],
+  "technologies": [
+    {
+      "name": "Apache",
+      "version": "2.4.25"
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 1
+  }
+}

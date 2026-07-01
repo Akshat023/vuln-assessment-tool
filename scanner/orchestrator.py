@@ -39,6 +39,8 @@ class ScanOrchestrator:
         run_nuclei: bool = True,
         run_headers: bool = True,
         run_ssl: bool = True,
+        run_tech: bool = True,
+        run_nvd: bool = True,
         zap_skip_active: bool = False,
     ):
         self.zap_url = zap_url
@@ -46,6 +48,8 @@ class ScanOrchestrator:
         self.run_nuclei = run_nuclei
         self.run_headers = run_headers
         self.run_ssl = run_ssl
+        self.run_tech = run_tech
+        self.run_nvd = run_nvd
         self.zap_skip_active = zap_skip_active
 
     def _dedupe_findings(self, findings: list) -> list:
@@ -168,6 +172,44 @@ class ScanOrchestrator:
             except Exception as e:
                 tools_failed.append("ssl_scanner")
                 logger.error(f"SSL scan raised exception: {e}")
+        
+        # ── Tech fingerprinting + NVD lookup ──
+        detected_technologies = []
+        if self.run_tech:
+            try:
+                from scanner.modules.tech_fingerprinter import TechFingerprinter
+                tech = TechFingerprinter()
+                tech_result = tech.run_scan(target_url=direct_url, scan_id=scan_id)
+                if tech_result["status"] == "completed":
+                    all_findings.extend(tech_result["findings"])
+                    detected_technologies = tech_result.get("technologies", [])
+                    tools_run.append("tech_fingerprinter")
+                    logger.info(f"Tech fingerprinter detected: {[t['name'] for t in detected_technologies]}")
+                else:
+                    tools_failed.append("tech_fingerprinter")
+            except Exception as e:
+                tools_failed.append("tech_fingerprinter")
+                logger.error(f"Tech fingerprint raised exception: {e}")
+
+        # ── NVD/CVE lookup ────────────────────
+        if self.run_nvd and detected_technologies:
+            try:
+                from scanner.modules.nvd_lookup import NVDLookup
+                nvd = NVDLookup()
+                nvd_result = nvd.run_scan(
+                    technologies=detected_technologies,
+                    target_url=direct_url,
+                    scan_id=scan_id,
+                )
+                if nvd_result["status"] == "completed":
+                    all_findings.extend(nvd_result["findings"])
+                    tools_run.append("nvd_lookup")
+                    logger.info(f"NVD lookup contributed {len(nvd_result['findings'])} CVE findings")
+                else:
+                    tools_failed.append("nvd_lookup")
+            except Exception as e:
+                tools_failed.append("nvd_lookup")
+                logger.error(f"NVD lookup raised exception: {e}")
         
 
         # ── Merge, dedupe, sort ────────────────

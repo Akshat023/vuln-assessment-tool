@@ -1,11 +1,74 @@
 {
-  "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+  "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
   "target": "http://host.docker.internal:8888",
   "status": "completed",
   "findings": [
     {
-      "vuln_id": "996a736b-46e7-4fd4-8679-0eca68069c57",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "9e587f34-21a2-4b83-ae52-ea704bb8abc8",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
+      "tool": "nvd_lookup",
+      "plugin_id": "CVE-2017-7659",
+      "vuln_type": "Known CVE in Apache 2.4.25 (CVE-2017-7659)",
+      "owasp_category": "A06:2021 - Vulnerable and Outdated Components",
+      "cvss_score": 7.5,
+      "severity": "High",
+      "confidence": "High",
+      "evidence": "CVE-2017-7659 affects Apache 2.4.25. CVSS: 7.5 (CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)",
+      "affected_url": "http://localhost:8888",
+      "method": "GET",
+      "param": "",
+      "attack": "",
+      "description": "CVE-2017-7659: A maliciously constructed HTTP/2 request could cause mod_http2 in Apache HTTP Server 2.4.24, 2.4.25 to dereference a NULL pointer and crash the server process.",
+      "solution": "Update Apache to the latest stable version. Reference: http://www.debian.org/security/2017/dsa-3896",
+      "cwe_id": "",
+      "recommendation": "Upgrade Apache from version 2.4.25 to the latest stable release to patch CVE-2017-7659.",
+      "business_impact": "This known vulnerability (CVE-2017-7659) in Apache 2.4.25 may allow attackers to compromise the system. CVSS score 7.5 indicates high risk."
+    },
+    {
+      "vuln_id": "7f7b813c-4b22-46c3-9c2a-b1f7ae761459",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
+      "tool": "nvd_lookup",
+      "plugin_id": "CVE-2016-8743",
+      "vuln_type": "Known CVE in Apache 2.4.25 (CVE-2016-8743)",
+      "owasp_category": "A06:2021 - Vulnerable and Outdated Components",
+      "cvss_score": 7.5,
+      "severity": "High",
+      "confidence": "High",
+      "evidence": "CVE-2016-8743 affects Apache 2.4.25. CVSS: 7.5 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N)",
+      "affected_url": "http://localhost:8888",
+      "method": "GET",
+      "param": "",
+      "attack": "",
+      "description": "CVE-2016-8743: Apache HTTP Server, in all releases prior to 2.2.32 and 2.4.25, was liberal in the whitespace accepted from requests and sent in response lines and headers. Accepting these different behaviors represented a security concern when httpd participates in any chain of proxies or interacts with back-end application servers, either through mod_proxy or using conventional CGI mechanisms, and may result in request smuggling, response splitting and cache pollution.",
+      "solution": "Update Apache to the latest stable version. Reference: http://rhn.redhat.com/errata/RHSA-2017-1415.html",
+      "cwe_id": "",
+      "recommendation": "Upgrade Apache from version 2.4.25 to the latest stable release to patch CVE-2016-8743.",
+      "business_impact": "This known vulnerability (CVE-2016-8743) in Apache 2.4.25 may allow attackers to compromise the system. CVSS score 7.5 indicates high risk."
+    },
+    {
+      "vuln_id": "1bfa0c3e-7e28-46d0-8c28-9a112e676cc3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
+      "tool": "nvd_lookup",
+      "plugin_id": "CVE-2016-4975",
+      "vuln_type": "Known CVE in Apache 2.4.25 (CVE-2016-4975)",
+      "owasp_category": "A06:2021 - Vulnerable and Outdated Components",
+      "cvss_score": 6.1,
+      "severity": "Medium",
+      "confidence": "High",
+      "evidence": "CVE-2016-4975 affects Apache 2.4.25. CVSS: 6.1 (CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N)",
+      "affected_url": "http://localhost:8888",
+      "method": "GET",
+      "param": "",
+      "attack": "",
+      "description": "CVE-2016-4975: Possible CRLF injection allowing HTTP response splitting attacks for sites which use mod_userdir. This issue was mitigated by changes made in 2.4.25 and 2.2.32 which prohibit CR or LF injection into the \"Location\" or other outbound header key or value. Fixed in Apache HTTP Server 2.4.25 (Affected 2.4.1-2.4.23). Fixed in Apache HTTP Server 2.2.32 (Affected 2.2.0-2.2.31).",
+      "solution": "Update Apache to the latest stable version. Reference: http://www.securityfocus.com/bid/105093",
+      "cwe_id": "",
+      "recommendation": "Upgrade Apache from version 2.4.25 to the latest stable release to patch CVE-2016-4975.",
+      "business_impact": "This known vulnerability (CVE-2016-4975) in Apache 2.4.25 may allow attackers to compromise the system. CVSS score 6.1 indicates medium risk."
+    },
+    {
+      "vuln_id": "2f33b36c-a1cf-4202-a8cd-043804dd1c52",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_strict_transport_security",
       "vuln_type": "Missing Strict-Transport-Security Header",
@@ -25,8 +88,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8e1988c1-9cc7-4636-886e-7115b9028bd1",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f2c76619-9f75-4152-bac2-ed01a541d898",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "ssl_scanner",
       "plugin_id": "ssl_http_only",
       "vuln_type": "HTTP Only Site",
@@ -46,8 +109,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "049f6f2f-8be3-443a-9ecc-9412bf8c63e1",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "5fc7bef3-1c0b-49ee-b58e-e789f00045e0",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "ssl_scanner",
       "plugin_id": "ssl_missing_hsts",
       "vuln_type": "Missing HSTS Header",
@@ -67,8 +130,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "752c2547-9506-459e-8248-07e7470951a8",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3b0c40d9-0987-43b2-b634-035b1d548405",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -88,8 +151,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "a0e40fee-42d2-41cc-ae0d-59ce99a3faa7",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f6c455b3-ad16-4fd0-b39a-eeb2e397755b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -109,8 +172,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "17cf7051-7b5a-436d-8688-c5398599735e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "48a684a3-d08c-43c9-b01e-eb222b05fb38",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -130,8 +193,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "80228f1a-1d37-491b-b1cd-c43c49008478",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "19988f5f-6b9d-4bae-9fe9-fab58efa925c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "0",
       "vuln_type": "Directory Browsing",
@@ -151,8 +214,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "24a048e4-5a7d-4176-bc43-bf20279c8bcd",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1643f5e0-9374-4b7d-824c-dafdd925fa24",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "0",
       "vuln_type": "Directory Browsing",
@@ -172,8 +235,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ad0cd396-fa96-4e8a-b48e-81a11a322303",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "403eee91-7b60-49db-b22d-5e9d407d38c2",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "0",
       "vuln_type": "Directory Browsing",
@@ -193,8 +256,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "253c7213-4c3d-46c0-852f-80de177e28ca",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ab3a962b-37a5-442d-a65c-f1376f72b77c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -214,8 +277,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "b642609e-df88-400a-a8e5-22abfd786777",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "76a5d0ab-2200-4fe5-b620-a7b997cf7223",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -235,8 +298,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "34b9232f-e1a6-4aad-8e81-d6f52a93a3f3",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "848101d5-ada0-4e51-b8cc-d9f237be5c3e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -256,8 +319,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "aa5dc3be-b121-4f2a-bd7f-febe3b99013d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e5e823d9-3d4d-4a6f-aa08-6bd865ecfc73",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -277,8 +340,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "38d5957f-9832-4085-8369-0960fa7973b1",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "232c7d24-5319-4170-83c1-5025db6ece18",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -298,8 +361,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "4289cff2-8766-442b-8725-496a319bd971",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "570f1bb9-ebf2-4f2e-bcd8-3e477cecc376",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -319,8 +382,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8677cd5e-7f36-46ab-af17-0d9cabd70ebc",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ee93ccd9-4536-4c2e-9182-ddf54f6dfe94",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -340,8 +403,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "2d33f33e-7817-475f-868e-e3743b1d3618",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e9fe8167-8f3d-4e0c-88df-c38c6987cee7",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -361,8 +424,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "c95c2d1d-6a1b-475c-ba77-ca65e6cbbfde",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "d9891c7d-9539-4e00-9a4c-e8a4bfeecdf2",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -382,8 +445,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f542682a-18cf-49eb-8669-bbf604c7b050",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "922ef0f1-de61-44b4-9b39-a141e7b80cef",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -403,8 +466,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5a127a43-9c97-4112-b59e-be3732fdce5e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "9c95d39b-bf5e-42c0-ad18-e5675244b4e6",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -424,8 +487,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "3cafd9d8-7c9d-4c27-8e84-76c500d417db",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "c1541949-904b-4e5c-bd81-a65197441cc8",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -445,8 +508,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "e71d07b3-f255-470b-a1bf-657f4b605944",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "7c3842d3-5ab0-44d9-a56b-ef9fcc685e29",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -466,8 +529,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8dfb4316-54a4-47ab-8b3d-6a768b535d56",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1cdab9a1-a03d-4273-9161-899e5c76b0d8",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -487,8 +550,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f1f7e8e1-7c1d-4644-8f14-1ccee24378b3",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "947f65f1-8cab-43a8-8703-e372dad6ede6",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -508,8 +571,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5fd8ce2d-447d-4309-b808-f695b3c7c1c4",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ce19e4ca-5453-4a9e-b9b0-634b159b240a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -529,8 +592,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d0640486-b9f2-4a4d-bc2c-32186c51f415",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "92970058-c209-44f5-8cfd-ac734e34e164",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -550,8 +613,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "56c59825-7580-410e-a756-18239bd91f1e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f82f82f3-dd95-414d-b424-97fcdb00c706",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -571,8 +634,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "138a88c2-bc43-4fa1-a29f-51e2b1521b1f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1f9c7264-efda-44ca-8034-bbd249f74c6c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -592,8 +655,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "c9821bce-243d-4338-af70-7dd73fe5c8a6",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ea9ae386-c8c0-408a-bb17-131a72d53091",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -613,8 +676,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "4da6e470-e68f-477f-b23b-5f75098ac2c5",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "9faa54ec-82de-4293-ba48-a74b19111fa6",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -634,8 +697,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "78740493-e7e7-4512-bf88-e75562a5e843",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a6cd442a-06e3-4c69-9309-6b58b8d94d95",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -655,8 +718,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "98cba1ff-e95b-4df9-80bf-7fb466b3b8ec",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "d413040f-5e25-4e08-81e3-4f422cbedbf4",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -676,8 +739,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "1ff9966e-02e2-4e06-85b7-6d9a62b08842",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a8d7d0bf-2161-4a76-8d7d-79cf7228c966",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -697,8 +760,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "065a52a5-3b69-4cbe-91d2-6cc25cd6339b",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "2e249004-bca7-4fc1-81aa-a60115149ccd",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -718,8 +781,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "df928583-9144-4637-8414-86d5ffcbe627",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "896f8768-d76e-4e4e-aea0-6402129613ac",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -739,8 +802,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "376bff85-ac41-46ee-86f1-a4f0b9891be1",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "d0bb0e9f-6871-4342-aeda-f9c6b572bfb0",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -760,8 +823,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "dec18c24-6f0c-48fe-8248-2d2c1e0cf367",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1a5716c5-8eb5-4234-a98b-c6f6e3888213",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -781,8 +844,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ee80efd2-e48a-41d0-beae-d3f2988c5e75",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "24c7f742-0e61-460f-b4e2-a01d339ce66c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -802,8 +865,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "126c5aba-1081-44b0-b295-163ffbc883f2",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f3b91508-1dbc-44d0-82e1-c3faf442e957",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -823,8 +886,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d9cdbbe4-4c56-4ac7-80b8-67b332b9bbe5",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "342511b4-a02e-44a9-a719-ef70ed005c62",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -844,8 +907,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d67e60f2-0d9a-483c-be29-48003f720c92",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a787b0c9-f5f7-420d-9abe-71b55bd76d42",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -865,8 +928,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "48c4025b-6fcf-4a23-add8-84ccb6408641",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "5df68a3a-9223-4dd1-809e-0d7b7a4da87f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -886,8 +949,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "13b8232d-93b1-4658-8793-3468cb972f00",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "4e39957e-a501-4bcd-bb16-b3fa74f2cd7f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -907,8 +970,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "e85097a2-ea6a-4388-adf5-acebf76975ef",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "b9ebd7ce-69c1-416a-97c9-f700f1bcb594",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -928,8 +991,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5db31f4c-ed02-4cd4-a6fe-fe087b84b12a",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f2133fab-1644-41b4-8b41-798236599ac1",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -949,8 +1012,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "2cc257c6-e62c-4229-9267-62e40a5fdfce",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "626fa32a-628e-4e0f-8a3c-2a0fe0389a13",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -970,8 +1033,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "1abded29-4ea4-40f7-b667-0c1f80fb4927",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e03c4192-722a-4df6-a730-44c5561c5135",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -991,8 +1054,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f1c7210b-957f-41f3-9b22-645e40202314",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "4d669028-f295-45bd-b125-582afc442de3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -1012,8 +1075,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "bc1cb5ae-5531-42ce-9ee2-5858fc8fea57",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "76188a55-5ac8-4322-8871-adcb620f2d4b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1033,8 +1096,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "21f4340f-37cc-4bf6-8374-0f8482b7608e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "9d2f3f16-5983-413a-8cdb-c3bad4ea24b6",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1054,8 +1117,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "c7f34cbf-c2bf-49d8-a3d7-1cb7f1782dee",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "b24e7163-6d5c-4ee9-b0dd-26d3a2a1645a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -1075,8 +1138,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "858fa898-b7ac-4594-864c-6b2c165fdbab",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "084863b3-343a-4316-aa78-3cda49e58e21",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -1096,8 +1159,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f143bdae-dd28-4e9f-943d-5abf0af33978",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "5ae57d24-423e-478e-a0c6-a2a1621280f7",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10020",
       "vuln_type": "Missing Anti-Clickjacking Header",
@@ -1117,8 +1180,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "af2adc7a-61ce-41da-bcba-b4ae866e56c6",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "425a378e-f5a5-4777-a06a-5f44fc5729c0",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -1138,8 +1201,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "74fdfe2b-8087-419b-9704-98d9e98a6d4c",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1529edf0-08b4-46f7-9423-c8808c1fb0ad",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1159,8 +1222,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "b1cd3cf6-a7cf-4895-b0aa-5e0fa7ead017",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "d939dcb8-60c4-4ddc-864c-4b4e0238c02f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1180,8 +1243,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ed2639b0-b1ce-43ba-9961-13f4f244a025",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "8b53bc2b-1c8b-4c97-8067-5eca663e7f70",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10033",
       "vuln_type": "Directory Browsing",
@@ -1201,8 +1264,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "3d1f2a59-1ce9-4cd6-bc12-356de9d79b76",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "74c7387b-594d-4a17-a72e-b6eb4b1b0c1e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1222,8 +1285,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "e972c2c5-4b6e-462c-8788-7ad62d43d359",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "6d693309-1cb6-4b62-8702-57d115343483",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1243,8 +1306,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "a663674b-a352-4448-bd93-183e0da2e646",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "42417cc8-d7ca-4a21-a028-f90e8f9409b3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10038",
       "vuln_type": "Content Security Policy Header Not Set",
@@ -1264,8 +1327,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "439b9740-5ae0-40c1-8655-074a264af7c8",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "41b32250-45cf-44a9-8f0a-a6d3e82134f4",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_content_security_policy",
       "vuln_type": "Missing Content-Security-Policy Header",
@@ -1285,8 +1348,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "0d285b63-c2b2-48a2-ac23-f8969b3ab9c5",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "7d59594e-a111-4569-9cd1-25b58cbbe30d",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_x_frame_options",
       "vuln_type": "Missing X-Frame-Options Header",
@@ -1306,8 +1369,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "97be7740-a3b3-4f92-bfba-f849dd554a41",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "c099d055-7926-4d61-a290-b478cbf30b5b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10010",
       "vuln_type": "Cookie No HttpOnly Flag",
@@ -1327,8 +1390,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "fb15f739-b73e-46c4-b54f-36cd26c3416e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "48ac0410-f9ce-490d-a190-21f2d3d560cb",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10054",
       "vuln_type": "Cookie No SameSite Attribute",
@@ -1348,8 +1411,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8df5d982-42bb-4097-8506-685b911b967b",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "fd9fd78e-90c2-4001-8f03-3667944508e3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1369,8 +1432,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "cb06d01b-00fa-4910-9046-3c1e146efc8d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "2856e1ef-2536-459b-a825-bfc7ba5c1476",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1390,8 +1453,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "2a9fbc99-c841-4130-961d-8fe650d3948f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "2e1e718e-b4c5-4b4e-ab7a-6128b454135e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1411,8 +1474,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "fceb233b-d954-4347-862b-8b1abfb7e5f6",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f4f9065c-3821-45a1-a6ff-d817ed9e3a8a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10009",
       "vuln_type": "In Page Banner Information Leak",
@@ -1432,8 +1495,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "0712e9e0-be46-46a0-904d-b7a7b19d1abb",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f2263a94-f7d1-4c52-b7b6-a14e3cc6b18b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1453,8 +1516,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ee8e8634-85e7-4d04-8e45-531d8759033f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "dfc2b31e-08f9-4eeb-8fcc-0dbd221ce0ff",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1474,8 +1537,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "6b75930a-aad4-4af7-9e7a-7ce710f22196",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a3dc8702-3fae-43f7-953d-766bb7cc8973",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1495,8 +1558,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5f60135b-1e13-4799-9b31-0fdac347df63",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "64148e99-f413-4c79-94b6-f707b6623048",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1516,8 +1579,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "c893df3f-e21e-40fb-acfb-205ee928f533",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3b6f46d7-cb6f-4fa9-ad12-6535025a9213",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1537,8 +1600,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "6ecb947c-8090-4935-83e9-bda90b095097",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e80fbc3c-65fb-4fe3-bc4d-d62a518e9998",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1558,8 +1621,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f086f6c3-09b5-4408-b2c4-ace7ad057ea4",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "578172dd-afc9-4d8e-82d0-9347cad20a3c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1579,8 +1642,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d96f3e0a-cca8-4dae-9668-e508da186311",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "40da9428-1065-4386-ac9b-047f6969dba7",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1600,8 +1663,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "eafd10cb-7395-4d71-8559-a0bda9cb72d0",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "177daae9-c5ce-445c-963a-87ae67937f6f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1621,8 +1684,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ebac710d-1a3a-4604-a699-81208c5b7bf4",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "fd29d2b7-cc78-40dc-a646-22d9c7b8f905",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1642,8 +1705,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "b6689110-58fd-4925-b58d-92cedb38c4d2",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "c91d0030-6cbf-4e89-8694-f51816150f4e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1663,8 +1726,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "68f3fadd-b9bb-446b-a2be-d81881977904",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e73db7e1-6d3a-4dab-a8cd-23fe9384b5f4",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1684,8 +1747,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "59deffbc-01b3-49d3-8929-84e0c083b31d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "5c3cac8a-a705-4059-8f00-86f712993164",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1705,8 +1768,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "77921e2b-3c40-47a0-b3a6-38f5a54a518c",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ecaa380b-0aa6-4a48-a8c5-aa8b528701f1",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1726,8 +1789,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "139bec8a-ddef-4586-9940-5ba920efd673",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "4b277fc8-e5b6-47be-999a-6e96362072e4",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1747,8 +1810,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "3d5ced2a-a222-47fc-87a5-3d4a54349cf8",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "6089be58-6cc3-4dfe-bb2a-13e6237e5beb",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1768,8 +1831,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "57ec7a28-ec49-4149-86d6-a07ac4f2458c",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a5541ace-7926-442f-bc37-e967eea4b9da",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1789,8 +1852,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8e7feace-c016-4ef8-96f6-dff14372d0e6",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "62f67c5c-125a-4c69-8740-19c8a9f56094",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1810,8 +1873,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "32620961-f239-4a8a-9811-0bbf5c3db562",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "916db9fe-54f2-4637-aec5-01de04f9c6e2",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1831,8 +1894,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "7f1501e7-b675-4756-bbd7-e98504a06747",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f8c3925d-1ffe-493a-bb0f-14ac730ee08f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1852,8 +1915,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "2bc36365-1d24-4fb9-8f70-71b60ff4c922",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "96c2395e-3e80-47c8-b075-4f752b00211a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1873,8 +1936,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "7e6ccf88-0e85-4410-821c-fa2020c8ac72",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f90b3942-3507-49fe-bed5-a2a7414086cc",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1894,8 +1957,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5ca89e35-411a-4c78-a589-db8068a4402e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "57ce9f52-22af-4fa9-88ce-649caf471d33",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1915,8 +1978,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "5b0ebd68-fa67-43c1-adcd-e5342fc83994",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3ec352cb-ef3e-43e9-a6d3-aea293715f7d",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1936,8 +1999,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "711d541c-51fc-4151-843a-fe52e7e0349d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "118f3830-50ac-4286-a52f-fb522e952955",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1957,8 +2020,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "3f00b483-5d3e-49e2-8df3-65b6af781bcd",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e7467586-e39f-455a-b0d5-bad976705ee1",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -1978,8 +2041,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "255aaadb-421e-4c8c-bad4-cf5c566673b5",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3baa6c17-92de-449b-9deb-722a84fecc5c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -1999,8 +2062,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "222961f0-a77b-4516-b9ec-2e3833416e71",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "524170ce-dfb9-4cb1-84f8-8d67602f1c4b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2020,8 +2083,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "1e673658-b386-45d1-9a49-b4c1341a5131",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a0b538d2-5cfe-4a92-83ea-1f3ac9abe816",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2041,8 +2104,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "0f2dc51c-9e60-4fdf-a64c-faae6389c071",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "77d3911b-6876-4c8a-b51f-46d5f9760fa8",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2062,8 +2125,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "c9875c86-efe9-413f-83ab-a872e734fe49",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "62ee8656-54e1-48a8-95b5-fd8617a77b4d",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2083,8 +2146,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "55623b21-cf97-4c2b-8dbc-3f05bc0a3f42",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "b991b4f1-359b-4077-b25b-9e56773c28bf",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2104,8 +2167,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "b18d7338-9abb-4c89-8f19-67e6de6a235e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f456d195-eb87-4285-b82c-0ff94e11b52a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2125,8 +2188,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "987981ac-c91d-4827-a715-09ac4e73b91b",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3a8d23c5-60a5-469d-bed6-540db2170755",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2146,8 +2209,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f8b3234d-19c7-4ed9-a551-c72262c2165f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a1eedbc4-85ea-43ed-b639-d8ca7d432df2",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2167,8 +2230,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "a4f49b76-af7f-4f6d-add0-fb502a391787",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "51325b63-3e57-4eab-b3d4-94a9c699e16f",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2188,8 +2251,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "87043494-3ba9-4fdf-ab8b-6575001b2353",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "06290cba-3e19-4873-9e73-41e0e5696a6e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2209,8 +2272,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "47e2bed7-76f4-4457-98ad-7685f50d08e0",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "8e58d9d2-954c-490f-ad6f-7e5f06ca5831",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2230,8 +2293,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "7839bce3-07e9-4753-9987-ec3c5389814f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1139f722-305f-4933-9fff-5025b6766191",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2251,8 +2314,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "fce50161-0029-4748-89c4-8f9429ee20d3",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "9044b9a1-62b2-4af4-8a8b-ba083460dc62",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2272,8 +2335,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "413eb6c5-8aef-4cf0-9fad-95ef4cecc78f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "0397b893-f7db-49bc-b704-57420e083692",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2293,8 +2356,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "75c1f5db-0a1b-411e-a969-cbdf16f6f02a",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f8c551e5-b9a4-4d88-8e68-aa6c34281b42",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2314,8 +2377,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "016ae2bb-5c37-4ad0-9c23-9b813f8b9bfb",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "568c9155-aadb-4ba9-acfa-5225ef5e11dd",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2335,8 +2398,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "4b06a91d-5095-439c-9a60-ff3a8bd5c8fb",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a323a5f1-0be7-4d85-9e57-e17aa5702ca3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2356,8 +2419,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "33f44942-f3e0-4758-844a-4cc432baf3ef",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "82dc9be3-72f7-4632-8b06-9c9aa37a3bd8",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2377,8 +2440,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f619e0fb-c965-4474-83ca-2cd1d334044f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "db35363d-7b1e-4c3a-bf18-cedc3a1cb241",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2398,8 +2461,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d9329df8-ae79-4762-a9b3-751658e5e36a",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "fa83629f-2a74-45cd-b04f-9ae952edba3a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2419,8 +2482,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "4a05da9d-7e8e-4b99-887c-d818b57b38b7",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "e7fb42df-55c9-4480-8107-e884c5cd8b16",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2440,8 +2503,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "30df13b1-f96b-49a3-bc00-2128d64eafe1",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "07e1aa8a-47e8-4768-ac3c-3da371932e4c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2461,8 +2524,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "bc8ea5a1-b63a-4b52-aa36-0012df6345cc",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "d4e8eeb4-587e-4f6f-a68d-3051b82d53d3",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2482,8 +2545,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "89f06421-9add-43af-be58-aa9feda945be",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "8e09d697-dfe9-4188-86b5-7d24396a4d59",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2503,8 +2566,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "32323022-b921-4c53-92df-8022587ff883",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "671aabf0-bb9a-42e2-ae00-c144ebf7d6d1",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2524,8 +2587,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "0238f047-f554-4082-ae88-568d48756706",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "74d4d162-bfde-4119-b1d6-04f8216ed44d",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2545,8 +2608,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "a36a67f3-c8ad-41b7-9f72-fe9821b0e7b0",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "30d8920b-598c-491b-87ee-9444f19dbc3c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2566,8 +2629,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "392a8780-2074-49ce-bfe1-15eb7eead48e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "076b6f9c-535f-4336-b0f0-4d33dc444adb",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2587,8 +2650,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "25f53f53-540c-42ab-b098-6b3719586335",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f2ff602d-33d5-4a4c-9150-1b680c26128b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2608,8 +2671,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "2213e823-a3e5-490e-b150-78129884bc5d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "aa820f58-94bb-4df0-b399-1e3616c82faf",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2629,8 +2692,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "1e027db2-c2dc-4497-a33d-0053b9088cad",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "1a22b3b8-fc3d-4572-9b9e-0eb2ecb2efc4",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2650,8 +2713,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "27998042-be95-4747-a3b3-96e28b0b7ef5",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "a9c96f18-07ec-433e-98ba-2d466e898be9",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2671,8 +2734,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "f1a59557-ae1a-4be6-9e25-9059682a9988",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "16d97411-02b7-470e-b8a0-beb029ddff48",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2692,8 +2755,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "54c71a98-3cec-4452-869d-a2ab61a16387",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "2503cad1-3b54-4492-b987-ae0f2d14bb76",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -2713,8 +2776,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "d5fdf885-87a1-4630-ae3d-7b4035d9b3a7",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "67ca432b-544f-4a36-bb39-00e1a066bcd9",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "90022",
       "vuln_type": "Application Error Disclosure",
@@ -2734,8 +2797,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ea184f0d-0fde-45a6-a18f-18a297092690",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "4cd2615f-ef72-4f0d-9c42-1a2707658f27",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2755,8 +2818,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "efb60073-4584-46b1-b87a-5daab07fee2c",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "7011544b-898b-4b02-a039-36027a5823c5",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2776,8 +2839,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "9d9f65ba-993a-4e64-b1a7-81aab3d5912f",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "41e5fbb2-a794-479c-be4b-dc1f78b1d56c",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2797,8 +2860,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "9c61eecd-740c-403a-85ab-d49de507e385",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "f0edfd51-4a3e-42c8-8652-c31b6c8ad09d",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2818,8 +2881,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "178ae7d5-3254-45c9-9f45-a7f74896ffbe",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "133240db-1480-4b5e-8bd3-a5c330a1815e",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2839,8 +2902,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "a2ce7b8a-389a-4218-a158-396e73723c85",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "329dfa06-5543-4680-8e91-d4943db0abff",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2860,8 +2923,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "3586bf06-aa6c-40d1-a6b3-1891bca60cd7",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "da19645d-6136-47c7-aa16-2979ba693c5b",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2881,8 +2944,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "89dfce5f-c5fa-4e6d-aaa7-b8542c104671",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "68db4b23-833c-4e17-94e4-28ac6a189ee5",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2902,8 +2965,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "23361f60-f4df-4e43-81ec-c671ed82c756",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "eef49053-ecd4-40ac-8964-a572e95633ee",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2923,8 +2986,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "0bd3f193-5b1c-4b93-a9bd-a325a49b7885",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "fb65e67e-d0be-4ecb-9294-bd9e8d8b2f85",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10021",
       "vuln_type": "X-Content-Type-Options Header Missing",
@@ -2944,8 +3007,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "8f7b5f33-20b8-42da-8d93-4ea5e30c0b72",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "5ff36af6-60be-47af-8e7b-43b93e198df9",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10009",
       "vuln_type": "In Page Banner Information Leak",
@@ -2965,8 +3028,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "9354f762-7102-443d-ab48-d484486d333d",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "78c7876a-2840-4935-8fa0-ccb135950c8a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "zap",
       "plugin_id": "10036",
       "vuln_type": "Server Leaks Version Information",
@@ -2986,8 +3049,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "7d85d1e6-aab8-4c76-a1f5-c8c30b3e476a",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "7eb7e620-aad6-461c-a5d6-8c4a024d333a",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_x_content_type_options",
       "vuln_type": "Missing X-Content-Type-Options Header",
@@ -3007,8 +3070,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "aa0d88f4-3dd9-45c8-8a16-2e2263332c10",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "17352866-eaf6-49a6-997b-d747b48ab778",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_referrer_policy",
       "vuln_type": "Missing Referrer-Policy Header",
@@ -3028,8 +3091,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "87692306-1ac4-4096-a536-650b91869528",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "ee0328ba-9ce5-4b6d-983c-7f1356b9cc10",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_permissions_policy",
       "vuln_type": "Missing Permissions-Policy Header",
@@ -3049,8 +3112,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "035faee1-472f-4bda-a0c5-e73ea4a4000e",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "3f33bd52-37e8-41c1-9ca4-f22118a50052",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_x_xss_protection",
       "vuln_type": "Missing X-XSS-Protection Header",
@@ -3070,8 +3133,8 @@
       "business_impact": ""
     },
     {
-      "vuln_id": "ee6ab265-7762-41fc-a2f4-5baabb7eea04",
-      "scan_id": "931fda4e-ce03-4a59-a276-95ffe00f1733",
+      "vuln_id": "c049eb93-aab4-464a-a672-492bcac98262",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
       "tool": "header_scanner",
       "plugin_id": "header_server",
       "vuln_type": "Information Disclosure via Server Header",
@@ -3089,20 +3152,43 @@
       "cwe_id": "693",
       "recommendation": "Configure your web server to suppress or genericise the Server header. For Nginx: server_tokens off; For Apache: ServerTokens Prod",
       "business_impact": ""
+    },
+    {
+      "vuln_id": "ad0928c9-22c6-45be-89ac-1b7dc9ba89b1",
+      "scan_id": "92f125e5-ca8a-48c1-ba67-0ad64ea335f4",
+      "tool": "tech_fingerprinter",
+      "plugin_id": "tech_apache_version",
+      "vuln_type": "Technology Version Disclosure (Apache)",
+      "owasp_category": "A05:2021 - Security Misconfiguration",
+      "cvss_score": 3.1,
+      "severity": "Low",
+      "confidence": "High",
+      "evidence": "Apache 2.4.25 detected via response headers",
+      "affected_url": "http://localhost:8888",
+      "method": "GET",
+      "param": "",
+      "attack": "",
+      "description": "The server discloses it is running Apache version 2.4.25. This information helps attackers identify known vulnerabilities for this specific version.",
+      "solution": "Configure Apache to suppress version information. Suppress the Server/X-Powered-By headers.",
+      "cwe_id": "497",
+      "recommendation": "Hide Apache version disclosure in server configuration.",
+      "business_impact": "Version disclosure aids attackers in identifying and exploiting known CVEs for the specific software version in use."
     }
   ],
   "summary": {
-    "total": 147,
+    "total": 151,
     "critical": 0,
-    "high": 0,
-    "medium": 62,
-    "low": 85
+    "high": 2,
+    "medium": 63,
+    "low": 86
   },
   "tools_run": [
     "zap",
     "nuclei",
     "header_scanner",
-    "ssl_scanner"
+    "ssl_scanner",
+    "tech_fingerprinter",
+    "nvd_lookup"
   ],
   "tools_failed": []
 }
