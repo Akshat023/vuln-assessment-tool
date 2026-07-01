@@ -34,8 +34,8 @@ from api.models import (
     ScanListResponse,
     ScanStatus,
 )
-from api.tasks import run_scan_task, scan_store
-
+from api.tasks import run_scan_task
+from db.scan_store import scan_store
 # ──────────────────────────────────────────────
 # App setup
 # ──────────────────────────────────────────────

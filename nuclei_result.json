@@ -1,0 +1,13 @@
+{
+  "scan_id": "f198cdce-9925-48e9-ae0c-c1f0208c2232",
+  "target": "http://host.docker.internal:8888",
+  "status": "completed",
+  "findings": [],
+  "summary": {
+    "total": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+}

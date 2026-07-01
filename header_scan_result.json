@@ -1,0 +1,13 @@
+{
+  "scan_id": "cd5ab7b9-1a50-49b9-b977-13986be32e0d",
+  "target": "http://host.docker.internal:8888",
+  "status": "failed",
+  "findings": [],
+  "summary": {
+    "total": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+}
