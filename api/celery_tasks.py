@@ -27,7 +27,7 @@ def run_scan_celery(self, scan_id: str, target_url: str):
         from scanner.orchestrator import ScanOrchestrator
 
         orchestrator = ScanOrchestrator(
-            zap_url="http://localhost:8080",
+            zap_url="http://vuln_zap:8080",
             run_zap=True,
             run_nuclei=True,
             zap_skip_active=False,

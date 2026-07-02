@@ -45,6 +45,11 @@ app = FastAPI(
     description="Submit a URL and get a full vulnerability report powered by OWASP ZAP and AI analysis.",
     version="0.1.0",
 )
+from db.database import init_db
+
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 # Allow frontend (React/Next.js) to call this API
 app.add_middleware(

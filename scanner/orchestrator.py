@@ -34,7 +34,7 @@ class ScanOrchestrator:
 
     def __init__(
         self,
-        zap_url: str = "http://localhost:8080",
+        zap_url: str = "http://vuln_zap:8080",
         run_zap: bool = True,
         run_nuclei: bool = True,
         run_headers: bool = True,
@@ -135,9 +135,12 @@ class ScanOrchestrator:
                 logger.error(f"Nuclei scan raised exception: {e}")
         
         # ── Normalize URL for direct Python connections ────
-        # host.docker.internal only works inside Docker containers.
-        # Header/SSL scanners connect directly from Windows, so use localhost.
-        direct_url = target_url.replace("host.docker.internal", "localhost")
+        
+        import os
+        # Inside Docker, use target_url directly (containers can reach each other)
+        # Outside Docker (local dev), replace host.docker.internal with localhost
+        is_docker = os.path.exists("/.dockerenv")
+        direct_url = target_url if is_docker else target_url.replace("host.docker.internal", "localhost")
         # ── Header scan ────────────────────────
         if self.run_headers:
             try:

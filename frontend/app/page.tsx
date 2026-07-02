@@ -343,7 +343,7 @@ export default function Home() {
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://example.com"
               required
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 caret-indigo-600 transition duration-200 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
             <button
               type="submit"

@@ -12,6 +12,7 @@ The --pool=solo flag is required on Windows.
 """
 
 from celery import Celery
+import os
 
 # ──────────────────────────────────────────────
 # Celery app instance
@@ -20,8 +21,8 @@ from celery import Celery
 # ──────────────────────────────────────────────
 celery_app = Celery(
     "vuln_assessment",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/0",
+    broker=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
+    backend=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
     include=["api.celery_tasks"],
 )
 

@@ -14,7 +14,7 @@ Usage:
     findings = scanner.run_full_scan("http://host.docker.internal:8888")
     print(findings)
 """
-
+import os
 import requests
 import time
 import uuid
@@ -81,7 +81,7 @@ class ZAPScanner:
 
     def __init__(
         self,
-        zap_url: str = "http://localhost:8080",
+        zap_url: str = os.getenv("ZAP_URL", "http://localhost:8080"),
         spider_timeout: int = 300,
         ascan_timeout: int = 1800,
         poll_interval: int = 10,
