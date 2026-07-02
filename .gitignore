@@ -1,7 +1,32 @@
-__pycache__/ 
-*.pyc 
-.env 
-scan_result.json 
-zap_raw_output.json 
-*.egg-info/ 
-.venv/ 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Environment
+.env
+.env.local
+
+# Scan outputs
+scan_result.json
+scan_result_enriched.json
+zap_raw_output.json
+nuclei_result.json
+header_scan_result.json
+ssl_scan_result.json
+tech_fingerprint_result.json
+nvd_result.json
+orchestrator_result.json
+
+# Reports
+reports/output/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+
+# Docker
+*.log
