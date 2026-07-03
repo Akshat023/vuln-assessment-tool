@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: vuln-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: ZAP_URL
+        value: http://localhost:8080
+
+  - type: worker
+    name: vuln-celery
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m celery -A api.celery_app worker --loglevel=info --pool=solo
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: ZAP_URL
+        value: http://localhost:8080
