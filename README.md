@@ -6,7 +6,7 @@
 
 ## 📸 Demo
 
-![Dashboard Screenshot](docs/dashboard.png)
+![Dashboard Screenshot]("C:\Projects\vuln-assessment-tool\Screenshot 2026-07-03 132345.png")
 
 ---
 
