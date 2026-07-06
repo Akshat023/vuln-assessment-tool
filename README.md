@@ -6,8 +6,6 @@
 
 ## 📸 Demo
 
-## 📸 Demo
-
 ![Dashboard Screenshot](assets/dashboard.png)
 
 ---
