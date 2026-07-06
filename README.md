@@ -37,17 +37,17 @@
                                             + NVD CVE Lookup
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│              CVSS Scoring + OWASP Top 10 Mapping             │
+│              CVSS Scoring + OWASP Top 10 Mapping            │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│           Groq AI Analysis (Llama 3.3 70B)                   │
-│   Remediation · Business Impact · Executive Summary          │
+│           Groq AI Analysis (Llama 3.3 70B)                  │
+│   Remediation · Business Impact · Executive Summary         │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│              Report Generation + PostgreSQL                   │
-│              PDF · Excel · Persistent History                │
+│              Report Generation + PostgreSQL                 │
+│              PDF · Excel · Persistent History               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
