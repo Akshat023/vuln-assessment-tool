@@ -14,24 +14,24 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Next.js Dashboard                         │
-│         URL Submission · Results · History · Export          │
+│                    Next.js Dashboard                        │
+│         URL Submission · Results · History · Export         │
 └──────────────────────┬──────────────────────────────────────┘
                        │ HTTP
 ┌──────────────────────▼──────────────────────────────────────┐
-│                  FastAPI Backend                              │
-│         REST API · Input Validation · Auth                   │
+│                  FastAPI Backend                            │
+│         REST API · Input Validation · Auth                  │
 └──────────────────────┬──────────────────────────────────────┘
                        │ Task Queue
 ┌──────────────────────▼──────────────────────────────────────┐
-│              Celery + Redis (Async Queue)                     │
-│         Scan jobs run in background · Non-blocking           │
+│              Celery + Redis (Async Queue)                   │
+│         Scan jobs run in background · Non-blocking          │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│                  Scan Orchestrator                            │
-│      Coordinates all scanners · Merges · Deduplicates        │
-└──┬──────────┬──────────┬──────────┬──────────┬─────────────┘
+│                  Scan Orchestrator                          │
+│      Coordinates all scanners · Merges · Deduplicates       │
+└──┬──────────┬──────────┬──────────┬──────────┬──────────────┘
    │          │          │          │          │
  ZAP      Nuclei    Headers    SSL/TLS    Tech Fingerprint
                                             + NVD CVE Lookup
