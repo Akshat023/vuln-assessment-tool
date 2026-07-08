@@ -11,7 +11,6 @@ import {
   Finding,
 } from "@/lib/api";
 
-// ── Severity config ──────────────────────────
 const SEVERITY_CONFIG: Record<string, { bg: string; text: string }> = {
   Critical: { bg: "bg-red-900",    text: "text-white" },
   High:     { bg: "bg-red-500",    text: "text-white" },
@@ -26,7 +25,6 @@ const SEVERITY_CARD: Record<string, { bg: string; text: string; num: string }> =
   low:      { bg: "bg-blue-50",   text: "text-blue-600",   num: "text-blue-600" },
 };
 
-// ── Severity Badge ───────────────────────────
 function SeverityBadge({ severity }: { severity: string }) {
   const cfg = SEVERITY_CONFIG[severity] || { bg: "bg-gray-400", text: "text-white" };
   return (
@@ -36,7 +34,6 @@ function SeverityBadge({ severity }: { severity: string }) {
   );
 }
 
-// ── Summary Cards ────────────────────────────
 function SummaryCards({ summary }: { summary: Scan["summary"] }) {
   const items = [
     { key: "critical", label: "Critical" },
@@ -64,19 +61,14 @@ function SummaryCards({ summary }: { summary: Scan["summary"] }) {
   );
 }
 
-// ── Finding Row ──────────────────────────────
 function FindingRow({ finding, index }: { finding: Finding; index: number }) {
   const [expanded, setExpanded] = useState(false);
   const rowBg = index % 2 === 0 ? "bg-white" : "bg-gray-50";
 
   const scoreColor =
-    finding.cvss_score >= 9
-      ? "#7F1D1D"
-      : finding.cvss_score >= 7
-      ? "#DC2626"
-      : finding.cvss_score >= 4
-      ? "#EA580C"
-      : "#2563EB";
+    finding.cvss_score >= 9 ? "#7F1D1D" :
+    finding.cvss_score >= 7 ? "#DC2626" :
+    finding.cvss_score >= 4 ? "#EA580C" : "#2563EB";
 
   return (
     <>
@@ -143,7 +135,7 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
                   <div>
                     <div className="text-xs font-bold text-gray-500 uppercase mb-1">Scanner</div>
                     <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-medium">
-                      {finding.tool.replace("_", " ").toUpperCase()}
+                      {finding.tool.replace(/_/g, " ").toUpperCase()}
                     </span>
                   </div>
                 )}
@@ -162,9 +154,8 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
   );
 }
 
-// ── Progress Bar ─────────────────────────────
 function ProgressBar({ progress }: {
-  progress: { progress: number; stage: string; estimated_seconds_left: number | null } | null
+  progress: { progress: number; stage: string; estimated_seconds_left: number | null } | null;
 }) {
   const pct = progress?.progress ?? 0;
   const minsLeft = progress?.estimated_seconds_left != null
@@ -197,7 +188,6 @@ function ProgressBar({ progress }: {
   );
 }
 
-// ── Scan Results ─────────────────────────────
 function ScanResults({ scan }: { scan: Scan }) {
   return (
     <div className="mt-6">
@@ -212,22 +202,21 @@ function ScanResults({ scan }: { scan: Scan }) {
 
       <div className="flex gap-3 mb-6">
         <a
-        href={getReportUrl(scan.scan_id, "pdf")}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
+          href={getReportUrl(scan.scan_id, "pdf")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
         >
-        ↓ Download PDF
-       </a>
-
-       <a
-       href={getReportUrl(scan.scan_id, "excel")}
-       target="_blank"
-       rel="noopener noreferrer"
-       className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
-       >
-        ↓ Download Excel
-       </a>
+          ↓ Download PDF
+        </a>
+        <a
+          href={getReportUrl(scan.scan_id, "excel")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+        >
+          ↓ Download Excel
+        </a>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -273,7 +262,6 @@ function ScanResults({ scan }: { scan: Scan }) {
   );
 }
 
-// ── Scan History ─────────────────────────────
 function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) => void }) {
   if (scans.length === 0) return null;
 
@@ -338,7 +326,6 @@ function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) =
   );
 }
 
-// ── Main Page ────────────────────────────────
 export default function Home() {
   const [url, setUrl]                 = useState("");
   const [loading, setLoading]         = useState(false);
@@ -352,20 +339,13 @@ export default function Home() {
     estimated_seconds_left: number | null;
   } | null>(null);
 
-  useEffect(() => {
-    listScans()
-      .then((data) => setScanHistory(data.scans))
-      .catch(() => {});
-  }, []);
-
-  const pollScan = useCallback(async (scanId: string) => {
+  const pollScan = useCallback((scanId: string) => {
     setPolling(true);
     const interval = setInterval(async () => {
       try {
         const scan = await getScan(scanId);
         setCurrentScan(scan);
 
-        // Fetch progress separately — failure here doesn't stop polling
         getScanProgress(scanId)
           .then(setProgress)
           .catch(() => {});
@@ -375,17 +355,30 @@ export default function Home() {
           setProgress({ progress: 100, stage: "Scan complete", estimated_seconds_left: 0 });
           setPolling(false);
           setLoading(false);
-          // Refresh scan history
           listScans()
             .then((data) => setScanHistory(data.scans))
             .catch(() => {});
         }
       } catch (err) {
-        // Network error — log but keep polling
         console.error("Poll error (will retry):", err);
       }
     }, 5000);
   }, []);
+
+  useEffect(() => {
+    listScans().then((data) => {
+      const scans = data.scans;
+      setScanHistory(scans);
+
+      const runningScan = scans.find(
+        (s) => s.status === "running" || s.status === "queued"
+      );
+      if (runningScan) {
+        setCurrentScan(runningScan);
+        pollScan(runningScan.scan_id);
+      }
+    }).catch(() => {});
+  }, [pollScan]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -416,7 +409,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-gray-900 text-white px-6 py-4 shadow-lg">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
@@ -431,7 +423,6 @@ export default function Home() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Scan form */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-6">
           <h2 className="text-lg font-bold text-gray-800 mb-1">Start a New Scan</h2>
           <p className="text-sm text-gray-500 mb-4">
@@ -442,12 +433,12 @@ export default function Home() {
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e as unknown as React.FormEvent)}
               placeholder="https://example.com"
+              required
               className="flex-1 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
             <button
-              onClick={handleSubmit}
+              type="submit"
               disabled={loading || !url.trim()}
               className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
@@ -459,7 +450,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* Current scan */}
         {currentScan && (
           <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-2">
