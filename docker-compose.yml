@@ -1,47 +1,28 @@
 services:
 
-  # ── PostgreSQL ──────────────────────────────
-  postgres:
-    image: postgres:15
-    container_name: vuln_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: vuln_assessment
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  # ── Redis ───────────────────────────────────
-  redis:
-    image: redis:alpine
-    container_name: vuln_redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
   # ── OWASP ZAP ───────────────────────────────
   zap:
     image: ghcr.io/zaproxy/zaproxy:stable
     container_name: vuln_zap
     user: zap
+
+    mem_limit: 2g
+    memswap_limit: 2g
+
     ports:
       - "8080:8080"
+
     command: >
-      zap.sh -daemon -host 0.0.0.0 -port 8080
+      zap.sh -daemon
+      -host 0.0.0.0
+      -port 8080
       -config api.disablekey=true
       -config api.addrs.addr.name=.*
       -config api.addrs.addr.regex=true
+      -Xmx1024m
+
+    restart: unless-stopped
+
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8080/JSON/core/view/version/ || exit 1"]
       interval: 15s
@@ -49,77 +30,70 @@ services:
       retries: 10
       start_period: 30s
 
-  # ── DVWA (test target) ──────────────────────
+
+  # ── DVWA (Optional Test Target) ─────────────
   dvwa:
     image: vulnerables/web-dvwa
     container_name: vuln_dvwa
+
     ports:
       - "8888:80"
 
-  # ── FastAPI Backend ──────────────────────────
+    restart: unless-stopped
+
+
+  # ── FastAPI Backend ─────────────────────────
   api:
     build:
       context: .
       dockerfile: Dockerfile.api
+
     container_name: vuln_api
+
     ports:
       - "8000:8000"
+
+    mem_limit: 512m
+
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/vuln_assessment
-      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
       - ZAP_URL=http://zap:8080
       - GROQ_API_KEY=${GROQ_API_KEY}
+
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
       zap:
         condition: service_healthy
+
     volumes:
       - ./reports/output:/app/reports/output
 
-  # ── Celery Worker ────────────────────────────
+    restart: unless-stopped
+
+
+  # ── Celery Worker ───────────────────────────
   celery:
     build:
       context: .
       dockerfile: Dockerfile.api
+
     container_name: vuln_celery
+
     command: python -m celery -A api.celery_app worker --loglevel=info --pool=solo
+
+    mem_limit: 512m
+
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/vuln_assessment
-      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
       - ZAP_URL=http://zap:8080
       - GROQ_API_KEY=${GROQ_API_KEY}
+
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
       zap:
         condition: service_healthy
+
     volumes:
       - ./reports/output:/app/reports/output
 
-  # ── Next.js Frontend ─────────────────────────
-    # ── Next.js Frontend ─────────────────────────
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
-      args:
-        NEXT_PUBLIC_API_URL: http://74.225.255.235:8000
-
-    container_name: vuln_frontend
-
-    ports:
-      - "3000:3000"
-
-    environment:
-      - NEXT_PUBLIC_API_URL=http://74.225.255.235:8000
-
-    depends_on:
-      - api
-
-volumes:
-  postgres_data:
+    restart: unless-stopped
