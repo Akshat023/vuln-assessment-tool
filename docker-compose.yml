@@ -101,6 +101,7 @@ services:
     volumes:
       - ./reports/output:/app/reports/output
 
+  # ── Next.js Frontend ─────────────────────────
     # ── Next.js Frontend ─────────────────────────
   frontend:
     build:
@@ -119,3 +120,6 @@ services:
 
     depends_on:
       - api
+
+volumes:
+  postgres_data:
