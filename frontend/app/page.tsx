@@ -211,22 +211,23 @@ function ScanResults({ scan }: { scan: Scan }) {
       )}
 
       <div className="flex gap-3 mb-6">
-        
-          href={getReportUrl(scan.scan_id, "pdf")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
-        <a>
-          ↓ Download PDF
-        </a>
-        
-          href={getReportUrl(scan.scan_id, "excel")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
-        <a>
-          ↓ Download Excel
-        </a>
+        <a
+        href={getReportUrl(scan.scan_id, "pdf")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
+        >
+        ↓ Download PDF
+       </a>
+
+       <a
+       href={getReportUrl(scan.scan_id, "excel")}
+       target="_blank"
+       rel="noopener noreferrer"
+       className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+       >
+        ↓ Download Excel
+       </a>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
