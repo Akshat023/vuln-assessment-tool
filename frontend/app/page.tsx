@@ -1,14 +1,22 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { submitScan, getScan, listScans, getReportUrl, Scan, Finding } from "@/lib/api";
+import {
+  submitScan,
+  getScan,
+  getScanProgress,
+  listScans,
+  getReportUrl,
+  Scan,
+  Finding,
+} from "@/lib/api";
 
 // ── Severity config ──────────────────────────
-const SEVERITY_CONFIG: Record<string, { bg: string; text: string; border: string }> = {
-  Critical: { bg: "bg-red-900",    text: "text-white",      border: "border-red-900" },
-  High:     { bg: "bg-red-500",    text: "text-white",      border: "border-red-500" },
-  Medium:   { bg: "bg-orange-400", text: "text-white",      border: "border-orange-400" },
-  Low:      { bg: "bg-blue-500",   text: "text-white",      border: "border-blue-500" },
+const SEVERITY_CONFIG: Record<string, { bg: string; text: string }> = {
+  Critical: { bg: "bg-red-900",    text: "text-white" },
+  High:     { bg: "bg-red-500",    text: "text-white" },
+  Medium:   { bg: "bg-orange-400", text: "text-white" },
+  Low:      { bg: "bg-blue-500",   text: "text-white" },
 };
 
 const SEVERITY_CARD: Record<string, { bg: string; text: string; num: string }> = {
@@ -20,7 +28,7 @@ const SEVERITY_CARD: Record<string, { bg: string; text: string; num: string }> =
 
 // ── Severity Badge ───────────────────────────
 function SeverityBadge({ severity }: { severity: string }) {
-  const cfg = SEVERITY_CONFIG[severity] || { bg: "bg-gray-400", text: "text-white", border: "" };
+  const cfg = SEVERITY_CONFIG[severity] || { bg: "bg-gray-400", text: "text-white" };
   return (
     <span className={`px-2 py-1 rounded text-xs font-bold ${cfg.bg} ${cfg.text}`}>
       {severity}
@@ -61,6 +69,15 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
   const [expanded, setExpanded] = useState(false);
   const rowBg = index % 2 === 0 ? "bg-white" : "bg-gray-50";
 
+  const scoreColor =
+    finding.cvss_score >= 9
+      ? "#7F1D1D"
+      : finding.cvss_score >= 7
+      ? "#DC2626"
+      : finding.cvss_score >= 4
+      ? "#EA580C"
+      : "#2563EB";
+
   return (
     <>
       <tr
@@ -72,12 +89,13 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
         </td>
         <td className="px-4 py-3 font-medium text-gray-800 text-sm">{finding.vuln_type}</td>
         <td className="px-4 py-3 text-xs text-gray-500">{finding.owasp_category}</td>
-        <td className="px-4 py-3 text-center font-bold text-sm" style={{
-          color: finding.cvss_score >= 7 ? "#C0392B" : finding.cvss_score >= 4 ? "#E67E22" : "#2980B9"
-        }}>
+        <td className="px-4 py-3 text-center font-bold text-sm" style={{ color: scoreColor }}>
           {finding.cvss_score}
         </td>
-        <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">
+        <td
+          className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate"
+          title={finding.affected_url}
+        >
           {finding.affected_url}
         </td>
         <td className="px-4 py-3 text-center text-gray-400 text-sm">
@@ -87,22 +105,52 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
       {expanded && (
         <tr className="bg-blue-50">
           <td colSpan={6} className="px-6 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-xs font-bold text-gray-500 uppercase mb-1">Recommendation</div>
-                <div className="text-sm text-gray-700 leading-relaxed">
-                  {finding.recommendation || finding.solution || "No recommendation available."}
+            <div className="space-y-3">
+              {finding.description && (
+                <div>
+                  <div className="text-xs font-bold text-gray-500 uppercase mb-1">Description</div>
+                  <div className="text-sm text-gray-700 leading-relaxed">{finding.description}</div>
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-xs font-bold text-gray-500 uppercase mb-1">Recommendation</div>
+                  <div className="text-sm text-gray-700 leading-relaxed">
+                    {finding.recommendation || finding.solution || "No recommendation available."}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-gray-500 uppercase mb-1">Business Impact</div>
+                  <div className="text-sm text-gray-700 leading-relaxed">
+                    {finding.business_impact || "No business impact data available."}
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="text-xs font-bold text-gray-500 uppercase mb-1">Business Impact</div>
-                <div className="text-sm text-gray-700 leading-relaxed">
-                  {finding.business_impact || "No business impact data available."}
-                </div>
+              <div className="flex gap-6 flex-wrap">
                 {finding.evidence && (
-                  <div className="mt-2">
+                  <div>
                     <div className="text-xs font-bold text-gray-500 uppercase mb-1">Evidence</div>
                     <code className="text-xs bg-gray-200 px-2 py-1 rounded">{finding.evidence}</code>
+                  </div>
+                )}
+                {finding.cwe_id && (
+                  <div>
+                    <div className="text-xs font-bold text-gray-500 uppercase mb-1">CWE</div>
+                    <span className="text-xs bg-gray-200 px-2 py-1 rounded">CWE-{finding.cwe_id}</span>
+                  </div>
+                )}
+                {finding.tool && (
+                  <div>
+                    <div className="text-xs font-bold text-gray-500 uppercase mb-1">Scanner</div>
+                    <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-medium">
+                      {finding.tool.replace("_", " ").toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                {finding.confidence && (
+                  <div>
+                    <div className="text-xs font-bold text-gray-500 uppercase mb-1">Confidence</div>
+                    <span className="text-xs bg-gray-200 px-2 py-1 rounded">{finding.confidence}</span>
                   </div>
                 )}
               </div>
@@ -114,6 +162,41 @@ function FindingRow({ finding, index }: { finding: Finding; index: number }) {
   );
 }
 
+// ── Progress Bar ─────────────────────────────
+function ProgressBar({ progress }: {
+  progress: { progress: number; stage: string; estimated_seconds_left: number | null } | null
+}) {
+  const pct = progress?.progress ?? 0;
+  const minsLeft = progress?.estimated_seconds_left != null
+    ? Math.ceil(progress.estimated_seconds_left / 60)
+    : null;
+
+  return (
+    <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+        <div className="flex-1">
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-medium text-yellow-800">
+              {progress?.stage || "Scanning in progress..."}
+            </span>
+            <span className="text-xs text-yellow-600">
+              {minsLeft != null ? `~${minsLeft}m left` : "Estimating..."}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="w-full bg-yellow-200 rounded-full h-2.5">
+        <div
+          className="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <div className="text-xs text-yellow-600 mt-1 text-right">{pct}% complete</div>
+    </div>
+  );
+}
+
 // ── Scan Results ─────────────────────────────
 function ScanResults({ scan }: { scan: Scan }) {
   return (
@@ -122,34 +205,30 @@ function ScanResults({ scan }: { scan: Scan }) {
 
       {scan.executive_summary && (
         <div className="mb-6 p-4 bg-indigo-50 border-l-4 border-indigo-600 rounded-r-xl">
-          <div className="text-xs font-bold text-indigo-600 uppercase mb-2">
-            AI Executive Summary
-          </div>
+          <div className="text-xs font-bold text-indigo-600 uppercase mb-2">AI Executive Summary</div>
           <p className="text-sm text-gray-700 leading-relaxed">{scan.executive_summary}</p>
         </div>
       )}
 
-      {/* Download buttons */}
       <div className="flex gap-3 mb-6">
-        <a
+        
           href={getReportUrl(scan.scan_id, "pdf")}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
-        >
+        <a>
           ↓ Download PDF
         </a>
-        <a
+        
           href={getReportUrl(scan.scan_id, "excel")}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
-        >
+        <a>
           ↓ Download Excel
         </a>
       </div>
 
-      {/* Findings table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h3 className="font-bold text-gray-800">
@@ -172,8 +251,12 @@ function ScanResults({ scan }: { scan: Scan }) {
             <tbody>
               {scan.findings.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
-                    No findings detected.
+                  <td colSpan={6} className="px-6 py-10 text-center">
+                    <div className="text-4xl mb-2">✅</div>
+                    <div className="font-semibold text-gray-700">No vulnerabilities found</div>
+                    <div className="text-sm text-gray-400 mt-1">
+                      This scan completed successfully and no issues were detected.
+                    </div>
                   </td>
                 </tr>
               ) : (
@@ -193,11 +276,15 @@ function ScanResults({ scan }: { scan: Scan }) {
 function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) => void }) {
   if (scans.length === 0) return null;
 
+  const sorted = [...scans].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
   return (
     <div className="mt-8">
       <h2 className="text-lg font-bold text-gray-800 mb-3">Scan History</h2>
       <div className="space-y-2">
-        {scans.map((scan) => (
+        {sorted.map((scan) => (
           <div
             key={scan.scan_id}
             onClick={() => onSelect(scan)}
@@ -252,36 +339,49 @@ function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) =
 
 // ── Main Page ────────────────────────────────
 export default function Home() {
-  const [url, setUrl]               = useState("");
-  const [loading, setLoading]       = useState(false);
+  const [url, setUrl]                 = useState("");
+  const [loading, setLoading]         = useState(false);
   const [currentScan, setCurrentScan] = useState<Scan | null>(null);
   const [scanHistory, setScanHistory] = useState<Scan[]>([]);
-  const [error, setError]           = useState("");
-  const [polling, setPolling]       = useState(false);
+  const [error, setError]             = useState("");
+  const [polling, setPolling]         = useState(false);
+  const [progress, setProgress]       = useState<{
+    progress: number;
+    stage: string;
+    estimated_seconds_left: number | null;
+  } | null>(null);
 
-  // Load scan history on mount
   useEffect(() => {
-    listScans().then((data) => setScanHistory(data.scans)).catch(() => {});
+    listScans()
+      .then((data) => setScanHistory(data.scans))
+      .catch(() => {});
   }, []);
 
-  // Poll current scan status
   const pollScan = useCallback(async (scanId: string) => {
     setPolling(true);
     const interval = setInterval(async () => {
       try {
         const scan = await getScan(scanId);
         setCurrentScan(scan);
+
+        // Fetch progress separately — failure here doesn't stop polling
+        getScanProgress(scanId)
+          .then(setProgress)
+          .catch(() => {});
+
         if (scan.status === "completed" || scan.status === "failed") {
           clearInterval(interval);
+          setProgress({ progress: 100, stage: "Scan complete", estimated_seconds_left: 0 });
           setPolling(false);
           setLoading(false);
-          // Refresh history
-          listScans().then((data) => setScanHistory(data.scans)).catch(() => {});
+          // Refresh scan history
+          listScans()
+            .then((data) => setScanHistory(data.scans))
+            .catch(() => {});
         }
-      } catch {
-        clearInterval(interval);
-        setPolling(false);
-        setLoading(false);
+      } catch (err) {
+        // Network error — log but keep polling
+        console.error("Poll error (will retry):", err);
       }
     }, 5000);
   }, []);
@@ -293,10 +393,10 @@ export default function Home() {
     setError("");
     setLoading(true);
     setCurrentScan(null);
+    setProgress(null);
 
     try {
       const result = await submitScan(url.trim());
-      // Start polling
       const initialScan: Scan = {
         scan_id: result.scan_id,
         url: url.trim(),
@@ -307,7 +407,7 @@ export default function Home() {
       };
       setCurrentScan(initialScan);
       pollScan(result.scan_id);
-    } catch (err: unknown) {
+    } catch {
       setError("Failed to submit scan. Make sure the API is running.");
       setLoading(false);
     }
@@ -323,7 +423,7 @@ export default function Home() {
             <p className="text-xs text-gray-400 mt-0.5">AI-Powered Website Vulnerability Assessment</p>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-400">
-            <span className="w-2 h-2 bg-green-400 rounded-full inline-block"></span>
+            <span className="w-2 h-2 bg-green-400 rounded-full inline-block" />
             OWASP ZAP + Groq AI
           </div>
         </div>
@@ -341,13 +441,13 @@ export default function Home() {
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e as unknown as React.FormEvent)}
               placeholder="https://example.com"
-              required
-              className="flex-1 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 caret-indigo-600 transition duration-200 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
             <button
-              type="submit"
-              disabled={loading}
+              onClick={handleSubmit}
+              disabled={loading || !url.trim()}
               className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? "Scanning..." : "Start Scan"}
@@ -358,7 +458,7 @@ export default function Home() {
           )}
         </div>
 
-        {/* Current scan status */}
+        {/* Current scan */}
         {currentScan && (
           <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-2">
@@ -376,19 +476,8 @@ export default function Home() {
               Target: <span className="font-medium text-gray-700">{currentScan.url}</span>
             </div>
 
-            {/* Progress indicator */}
             {(currentScan.status === "queued" || currentScan.status === "running") && (
-              <div className="flex items-center gap-3 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-                <div>
-                  <div className="text-sm font-medium text-yellow-800">
-                    {currentScan.status === "queued" ? "Scan queued..." : "Scanning in progress..."}
-                  </div>
-                  <div className="text-xs text-yellow-600 mt-0.5">
-                    This may take 2-5 minutes. Results will appear automatically.
-                  </div>
-                </div>
-              </div>
+              <ProgressBar progress={progress} />
             )}
 
             {currentScan.status === "failed" && (
@@ -403,9 +492,8 @@ export default function Home() {
           </div>
         )}
 
-        {/* Scan history */}
         <ScanHistory
-          scans={scanHistory.filter(s => s.scan_id !== currentScan?.scan_id)}
+          scans={scanHistory.filter((s) => s.scan_id !== currentScan?.scan_id)}
           onSelect={setCurrentScan}
         />
       </main>

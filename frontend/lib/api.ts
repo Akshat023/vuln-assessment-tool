@@ -19,6 +19,15 @@ export interface ScanSummary {
   low: number;
 }
 
+export async function getScanProgress(scanId: string): Promise<{
+  progress: number;
+  stage: string;
+  estimated_seconds_left: number | null;
+}> {
+  const res = await api.get(`/scans/${scanId}/progress`);
+  return res.data;
+}
+
 export interface Finding {
   vuln_id: string;
   scan_id: string;

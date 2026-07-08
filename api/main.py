@@ -134,6 +134,54 @@ def get_scan(scan_id: str):
         raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
     return scan
 
+@app.get("/scans/{scan_id}/progress", tags=["Scans"])
+def get_scan_progress(scan_id: str):
+    """Get real-time scan progress for the progress bar."""
+    scan = scan_store.get(scan_id)
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+    
+    status = scan["status"]
+    
+    # Estimate progress based on status and elapsed time
+    if status == "queued":
+        return {"progress": 0, "stage": "Queued — waiting to start", "estimated_seconds_left": None}
+    elif status == "completed":
+        return {"progress": 100, "stage": "Scan complete", "estimated_seconds_left": 0}
+    elif status == "failed":
+        return {"progress": 0, "stage": "Scan failed", "estimated_seconds_left": None}
+    
+    # Status is "running" — estimate based on elapsed time
+    # Average full scan takes ~180 seconds
+    try:
+        from datetime import datetime
+        created = datetime.fromisoformat(scan["created_at"])
+        elapsed = (datetime.utcnow() - created).total_seconds()
+        ESTIMATED_TOTAL = 180
+        progress = min(int((elapsed / ESTIMATED_TOTAL) * 90), 90)  # cap at 90% until actually done
+        seconds_left = max(int(ESTIMATED_TOTAL - elapsed), 0)
+        
+        # Stage labels based on progress
+        if progress < 15:
+            stage = "Starting ZAP scanner..."
+        elif progress < 30:
+            stage = "Spider crawling target..."
+        elif progress < 70:
+            stage = "Active scanning — testing for SQLi, XSS, CSRF..."
+        elif progress < 80:
+            stage = "Running Nuclei templates..."
+        elif progress < 85:
+            stage = "Checking SSL/TLS and HTTP headers..."
+        else:
+            stage = "AI enrichment — generating recommendations..."
+        
+        return {
+            "progress": progress,
+            "stage": stage,
+            "estimated_seconds_left": seconds_left
+        }
+    except Exception:
+        return {"progress": 50, "stage": "Scanning in progress...", "estimated_seconds_left": None}
 
 @app.get("/scans", response_model=ScanListResponse, tags=["Scans"])
 def list_scans():
