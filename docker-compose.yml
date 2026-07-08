@@ -101,24 +101,21 @@ services:
     volumes:
       - ./reports/output:/app/reports/output
 
-  # ── Next.js Frontend ─────────────────────────
+    # ── Next.js Frontend ─────────────────────────
   frontend:
-  build:
-    context: ./frontend
-    dockerfile: Dockerfile.frontend
-    args:
-      NEXT_PUBLIC_API_URL: http://74.225.255.235:8000
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://74.225.255.235:8000
 
-  container_name: vuln_frontend
+    container_name: vuln_frontend
 
-  ports:
-    - "3000:3000"
+    ports:
+      - "3000:3000"
 
-  environment:
-    - NEXT_PUBLIC_API_URL=http://74.225.255.235:8000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://74.225.255.235:8000
 
-  depends_on:
-    - api
-
-volumes:
-  postgres_data:
+    depends_on:
+      - api
