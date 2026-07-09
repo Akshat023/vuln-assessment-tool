@@ -218,6 +218,7 @@ function ScanResults({ scan }: { scan: Scan }) {
   >
     ↓ Download Excel
   </a>
+  
 </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
