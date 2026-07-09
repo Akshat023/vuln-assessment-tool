@@ -123,9 +123,11 @@ class NucleiScanner:
             "-tags", self.templates,
             "-jsonl",            # JSON Lines output, one finding per line
             "-silent",           # suppress banner/progress noise
-            "-rate-limit", str(self.rate_limit),
-            "-timeout", "10",    # per-request timeout
+            "-rate-limit", "20",
+            "-timeout", "5",
+            "-max-host-error", "3",    # per-request timeout
             "-no-color",
+            "-c", "5",                  # concurrency
         ]
 
         logger.info(f"Running: {' '.join(cmd)}")

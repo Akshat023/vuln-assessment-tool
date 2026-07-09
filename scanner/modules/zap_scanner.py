@@ -82,8 +82,8 @@ class ZAPScanner:
     def __init__(
         self,
         zap_url: str = os.getenv("ZAP_URL", "http://localhost:8080"),
-        spider_timeout: int = 300,
-        ascan_timeout: int = 1800,
+        spider_timeout: int = 120,
+        ascan_timeout: int = 400,
         poll_interval: int = 10,
     ):
         self.zap_url = zap_url.rstrip("/")
