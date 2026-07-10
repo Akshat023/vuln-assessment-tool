@@ -83,8 +83,8 @@ class ZAPScanner:
         self,
         zap_url: str = os.getenv("ZAP_URL", "http://localhost:8080"),
         spider_timeout: int = 120,
-        ascan_timeout: int = 400,
-        poll_interval: int = 10,
+        ascan_timeout: int = 300,
+        poll_interval: int = 15,
     ):
         self.zap_url = zap_url.rstrip("/")
         self.spider_timeout = spider_timeout
@@ -111,7 +111,10 @@ class ZAPScanner:
         elapsed = 0
         while elapsed < timeout:
             try:
-                data = self._get(status_path, {"scanId": scan_id})
+                url = f"{self.zap_url}{status_path}"
+                response = requests.get(url, params={"scanId": scan_id}, timeout=15)
+                response.raise_for_status()
+                data = response.json()
                 status = int(data.get("status", 0))
                 logger.info(f"{label} progress: {status}%")
                 if status >= 100:
@@ -159,8 +162,17 @@ class ZAPScanner:
     # ──────────────────────────────────────────
 
     def _run_active_scan(self, target_url: str) -> Optional[str]:
-        """Trigger ZAP active scan and return scan ID."""
         logger.info(f"Starting active scan on: {target_url}")
+
+    # Attempt to reduce scan aggressiveness — non-fatal if ZAP version doesn't support it
+        try:
+            self._get("/JSON/ascan/action/setOptionAttackStrength/", {"String": "LOW"})
+            self._get("/JSON/ascan/action/setOptionAlertThreshold/", {"String": "MEDIUM"})
+            self._get("/JSON/ascan/action/setOptionMaxScanDurationInMins/", {"Integer": "5"})
+            logger.info("ZAP scan policy: strength=LOW, threshold=MEDIUM, max=5min")
+        except Exception as e:
+            logger.warning(f"Could not set scan policy (non-fatal, continuing): {e}")
+
         data = self._get("/JSON/ascan/action/scan/", {"url": target_url, "recurse": "true"})
         scan_id = data.get("scan")
         if scan_id is None:
@@ -330,6 +342,12 @@ class ZAPScanner:
                 ascan_id = self._run_active_scan(target_url)
                 if ascan_id is None:
                     logger.warning("Active scan failed or timed out — returning spider-only results")
+                    try:
+                        self._get("/JSON/ascan/action/stopAllScans/", {})
+                        logger.info("Stopped all active scans")
+                        time.sleep(5)
+                    except Exception as e:
+                        logger.warning(f"stopAllScans failed (non-fatal): {e}")
             else:
                 logger.info("Skipping active scan — fetching existing ZAP alerts")
 
