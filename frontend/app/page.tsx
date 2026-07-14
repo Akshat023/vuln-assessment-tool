@@ -189,6 +189,7 @@ function ProgressBar({ progress }: {
 }
 
 function ScanResults({ scan }: { scan: Scan }) {
+  const displayFindings = scan.findings.slice(0, 100);
   return (
     <div className="mt-6">
       <SummaryCards summary={scan.summary} />
@@ -252,13 +253,18 @@ function ScanResults({ scan }: { scan: Scan }) {
                   </td>
                 </tr>
               ) : (
-                scan.findings.map((f, i) => (
+                displayFindings.map((f, i) => (
                   <FindingRow key={f.vuln_id} finding={f} index={i} />
                 ))
               )}
             </tbody>
           </table>
         </div>
+        {scan.findings.length > 100 && (
+          <div className="px-6 py-3 text-sm text-gray-500 text-center border-t border-gray-100">
+            Showing top 100 of {scan.findings.length} findings — download PDF or Excel for complete report.
+          </div>
+        )}
       </div>
     </div>
   );
