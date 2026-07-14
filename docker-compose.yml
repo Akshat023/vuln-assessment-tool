@@ -1,5 +1,16 @@
 services:
 
+  
+  redis:
+    image: redis:alpine
+    container_name: vuln_redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   # ── OWASP ZAP ───────────────────────────────
   zap:
     image: ghcr.io/zaproxy/zaproxy:stable
