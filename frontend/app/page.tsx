@@ -423,7 +423,7 @@ export default function Home() {
     setProgress(null);
 
     try {
-      const result = await submitScan(url.trim());
+      const result = await submitScan(url.trim(), user!.id, user!.email);
       const initialScan: Scan = {
         scan_id: result.scan_id,
         url: url.trim(),
