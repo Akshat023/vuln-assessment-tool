@@ -102,6 +102,8 @@ def create_scan(request: ScanRequest ):
         "findings":   [],
         "summary":    {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0},
         "executive_summary": "",
+        "user_id":           request.user_id,
+        "user_email":        request.user_email,
         "error":      None,
     }
 

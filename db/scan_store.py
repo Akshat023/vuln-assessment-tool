@@ -32,6 +32,8 @@ class PostgresScanStore:
             "findings":          scan.findings or [],
             "summary":           scan.summary or {},
             "executive_summary": scan.executive_summary or "",
+            "user_id":           scan.user_id,
+            "user_email":        scan.user_email,
             "error":             scan.error,
         }
 
@@ -61,6 +63,8 @@ class PostgresScanStore:
             scan.summary           = value.get("summary", {})
             scan.executive_summary = value.get("executive_summary", "")
             scan.error             = value.get("error")
+            scan.user_id    = value.get("user_id")
+            scan.user_email = value.get("user_email")
             db.commit()
         except Exception as e:
             db.rollback()

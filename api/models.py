@@ -23,6 +23,8 @@ class ScanStatus(str, Enum):
 
 class ScanRequest(BaseModel):
     url: HttpUrl
+    user_id: Optional[str] = None
+    user_email: Optional[str] = None
     # Future fields (Phase 4):
     # scan_type: str = "full"       # "passive" | "active" | "full"
     # notify_email: Optional[str]   # send email when done

@@ -25,3 +25,5 @@ class Scan(Base):
     summary           = Column(JSON,     default=dict)
     executive_summary = Column(Text,     default="")
     error             = Column(Text,     nullable=True) 
+    user_id           = Column(String, nullable=True)
+    user_email        = Column(String, nullable=True)
