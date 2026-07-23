@@ -1,5 +1,6 @@
 "use client";
-
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import {
   submitScan,
@@ -335,6 +336,8 @@ function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) =
 }
 
 export default function Home() {
+  const router = useRouter();
+  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
   const [url, setUrl]                 = useState("");
   const [loading, setLoading]         = useState(false);
   const [currentScan, setCurrentScan] = useState<Scan | null>(null);
@@ -372,6 +375,28 @@ export default function Home() {
       }
     }, 5000);
   }, []);
+
+  useEffect(() => {
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      router.push("/auth");
+      return;
+    }
+    setUser({ id: session.user.id, email: session.user.email! });
+  });
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    (_event, session) => {
+      if (!session) {
+        router.push("/auth");
+      } else {
+        setUser({ id: session.user.id, email: session.user.email! });
+      }
+    }
+  );
+
+  return () => subscription.unsubscribe();
+}, [router]);
 
   useEffect(() => {
     listScans().then((data) => {
@@ -427,6 +452,21 @@ export default function Home() {
             <span className="w-2 h-2 bg-green-400 rounded-full inline-block" />
             OWASP ZAP + Groq AI
           </div>
+         {user && (
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-400">{user.email}</span>
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  setUser(null);
+                  router.push("/auth");
+                }}
+                className="text-xs bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded-lg transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
