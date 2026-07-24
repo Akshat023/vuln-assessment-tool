@@ -21,11 +21,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from reports.pdf_generator import PDFGenerator
 from reports.excel_generator import ExcelGenerator
-from datetime import datetime
+from datetime import datetime, date 
 from typing import Optional
 import uuid
 import json
 import os
+from sqlalchemy import text
+from db.database import get_db
 
 from api.models import (
     ScanRequest,
@@ -36,6 +38,8 @@ from api.models import (
 )
 from api.tasks import run_scan_task
 from db.scan_store import scan_store
+import logging
+logger = logging.getLogger(__name__)
 # ──────────────────────────────────────────────
 # App setup
 # ──────────────────────────────────────────────
@@ -60,6 +64,57 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def check_and_increment_scan_limit(user_id: str, email: str, daily_limit: int = 3) -> tuple[bool, int]:
+    """
+    Check if user has scans remaining today.
+    Returns (allowed: bool, scans_used: int)
+    """
+    from db.database import SessionLocal
+    db = SessionLocal()
+    try:
+        today = date.today()
+        
+        # Get or create today's record
+        result = db.execute(text("""
+            INSERT INTO user_scan_limits (user_id, email, scan_date, scan_count, daily_limit)
+            VALUES (:user_id, :email, :today, 0, :limit)
+            ON CONFLICT (user_id, scan_date) DO NOTHING
+            RETURNING scan_count
+        """), {"user_id": user_id, "email": email, "today": today, "limit": daily_limit})
+        db.commit()
+
+        # Get current count
+        row = db.execute(text("""
+            SELECT scan_count, daily_limit 
+            FROM user_scan_limits 
+            WHERE user_id = :user_id AND scan_date = :today
+        """), {"user_id": user_id, "today": today}).fetchone()
+
+        if not row:
+            return False, 0
+
+        scan_count = row[0]
+        limit = row[1]
+
+        if scan_count >= limit:
+            return False, scan_count
+
+        # Increment count
+        db.execute(text("""
+            UPDATE user_scan_limits 
+            SET scan_count = scan_count + 1
+            WHERE user_id = :user_id AND scan_date = :today
+        """), {"user_id": user_id, "today": today})
+        db.commit()
+
+        return True, scan_count + 1
+
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Limit check failed: {e}")
+        return True, 0  # fail open — don't block scan if DB has issues
+    finally:
+        db.close()
 
 # ──────────────────────────────────────────────
 # Routes
@@ -92,6 +147,18 @@ def create_scan(request: ScanRequest ):
     if not target_url.startswith(("http://", "https://")):
         raise HTTPException(status_code=400, detail="URL must start with http:// or https://")
 
+    # ── Daily limit check ──────────────────────
+    user_id    = getattr(request, "user_id", None)
+    user_email = getattr(request, "user_email", None)
+
+    if user_id:
+        allowed, count = check_and_increment_scan_limit(user_id, user_email or "")
+        if not allowed:
+            raise HTTPException(
+                status_code=429,
+                detail=f"Daily scan limit reached (3 scans/day). Resets at midnight UTC."
+            )
+        
     # Initialize scan record in store
     scan_store[scan_id] = {
         "scan_id":    scan_id,
@@ -104,6 +171,8 @@ def create_scan(request: ScanRequest ):
         "executive_summary": "",
         "user_id":           request.user_id,
         "user_email":        request.user_email,
+        "progress":           0,
+        "stage":              "Queued",
         "error":      None,
     }
 
@@ -223,3 +292,27 @@ def download_excel(scan_id: str):
     generator = ExcelGenerator()
     path = generator.generate(scan, output_filename=f"report_{scan_id}.xlsx")
     return FileResponse(path, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=f"report_{scan_id}.xlsx")
+
+@app.get("/limits/{user_id}", tags=["Limits"])
+def get_user_limits(user_id: str):
+    """Get remaining scans for today."""
+    from db.database import SessionLocal
+    db = SessionLocal()
+    try:
+        today = date.today()
+        row = db.execute(text("""
+            SELECT scan_count, daily_limit
+            FROM user_scan_limits
+            WHERE user_id = :user_id AND scan_date = :today
+        """), {"user_id": user_id, "today": today}).fetchone()
+
+        if not row:
+            return {"scans_used": 0, "daily_limit": 3, "scans_remaining": 3}
+
+        return {
+            "scans_used":      row[0],
+            "daily_limit":     row[1],
+            "scans_remaining": max(0, row[1] - row[0]),
+        }
+    finally:
+        db.close()

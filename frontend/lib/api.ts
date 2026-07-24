@@ -61,10 +61,19 @@ export interface Scan {
 }
 
 // API calls
-export async function submitScan(url: string, userId: string, userEmail: string) {
+export const submitScan = async (
+  url: string,
+  userId?: string,
+  userEmail?: string
+): Promise<{ scan_id: string; status: string }> => {
   const res = await api.post("/scans", { url, user_id: userId, user_email: userEmail });
   return res.data;
-}
+};
+
+export const getUserLimits = async (userId: string) => {
+  const res = await api.get(`/limits/${userId}`);
+  return res.data;
+};
 
 export const getScan = async (scanId: string): Promise<Scan> => {
   const res = await api.get(`/scans/${scanId}`);

@@ -8,9 +8,12 @@ import {
   getScanProgress,
   listScans,
   getReportUrl,
+  getUserLimits,
   Scan,
   Finding,
 } from "@/lib/api";
+
+const [limits, setLimits] = useState({ scans_remaining: 3, daily_limit: 3 })
 
 const SEVERITY_CONFIG: Record<string, { bg: string; text: string }> = {
   Critical: { bg: "bg-red-900",    text: "text-white" },
@@ -413,9 +416,26 @@ export default function Home() {
     }).catch(() => {});
   }, [pollScan]);
 
+  useEffect(() => {
+    const fetchLimits = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const l = await getUserLimits(user.id)
+        setLimits(l)
+      }
+    }
+    fetchLimits()
+  }, [currentScan]) // refresh after each scan
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      router.push('/login')
+      return
+    }
 
     setError("");
     setLoading(true);
@@ -423,7 +443,7 @@ export default function Home() {
     setProgress(null);
 
     try {
-      const result = await submitScan(url.trim(), user!.id, user!.email);
+      const result = await submitScan(url.trim(), user!.id, user!.email || "" );
       const initialScan: Scan = {
         scan_id: result.scan_id,
         url: url.trim(),
@@ -434,9 +454,13 @@ export default function Home() {
       };
       setCurrentScan(initialScan);
       pollScan(result.scan_id);
-    } catch {
-      setError("Failed to submit scan. Make sure the API is running.");
-      setLoading(false);
+    } catch (err: any) {
+      if (err.response?.status === 429) {
+        setError("Daily scan limit reached (3/day). Resets at midnight UTC.")
+      } else {
+        setError("Failed to submit scan. Make sure the API is running.")
+      }
+      setLoading(false)
     }
   };
 
@@ -493,6 +517,17 @@ export default function Home() {
               {loading ? "Scanning..." : "Start Scan"}
             </button>
           </form>
+          {/* Scan limit indicator */}
+          <div className="flex items-center justify-between mt-3">
+            <p className="text-xs text-gray-400">
+              {limits.scans_remaining} of {limits.daily_limit} scans remaining today
+            </p>
+            {limits.scans_remaining === 0 && (
+              <span className="text-xs text-red-500 font-medium">
+                Daily limit reached — resets at midnight UTC
+              </span>
+            )}
+          </div>
           {error && (
             <div className="mt-3 p-3 bg-red-50 text-red-600 text-sm rounded-lg">{error}</div>
           )}
