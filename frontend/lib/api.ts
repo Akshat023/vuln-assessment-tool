@@ -75,13 +75,15 @@ export const getUserLimits = async (userId: string) => {
   return res.data;
 };
 
-export const getScan = async (scanId: string): Promise<Scan> => {
-  const res = await api.get(`/scans/${scanId}`);
+export const getScan = async (scanId: string, userId?: string): Promise<Scan> => {
+  const params = userId ? `?user_id=${userId}` : "";
+  const res = await api.get(`/scans/${scanId}${params}`);
   return res.data;
 };
 
-export const listScans = async (): Promise<{ scans: Scan[]; total: number }> => {
-  const res = await api.get("/scans");
+export const listScans = async (userId?: string): Promise<{ scans: Scan[]; total: number }> => {
+  const params = userId ? `?user_id=${userId}` : "";
+  const res = await api.get(`/scans${params}`);
   return res.data;
 };
 

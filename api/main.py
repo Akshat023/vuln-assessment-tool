@@ -190,19 +190,12 @@ def create_scan(request: ScanRequest ):
 
 
 @app.get("/scans/{scan_id}", response_model=ScanStatusResponse, tags=["Scans"])
-def get_scan(scan_id: str):
-    """
-    Get the current status and results of a scan.
-    
-    Status values:
-        queued    — waiting to start
-        running   — scan in progress
-        completed — finished, findings available
-        failed    — something went wrong, check error field
-    """
+def get_scan(scan_id: str, user_id: Optional[str] = None):
     scan = scan_store.get(scan_id)
     if not scan:
         raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
+    if user_id and scan.get("user_id") and scan.get("user_id") != user_id:
+        raise HTTPException(status_code=403, detail="Access denied")
     return scan
 
 @app.get("/scans/{scan_id}/progress", tags=["Scans"])
@@ -255,12 +248,10 @@ def get_scan_progress(scan_id: str):
         return {"progress": 50, "stage": "Scanning in progress...", "estimated_seconds_left": None}
 
 @app.get("/scans", response_model=ScanListResponse, tags=["Scans"])
-def list_scans():
-    """List all scans (most recent first)."""
-    scans = list(scan_store.values())
-    scans.sort(key=lambda x: x["created_at"], reverse=True)
+def list_scans(user_id: str):
+    """List scans for a specific user only."""
+    scans = scan_store.values_by_user(user_id)
     return {"scans": scans, "total": len(scans)}
-
 
 @app.delete("/scans/{scan_id}", tags=["Scans"])
 def delete_scan(scan_id: str):

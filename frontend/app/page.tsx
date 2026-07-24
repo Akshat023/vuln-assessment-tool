@@ -369,7 +369,7 @@ export default function Home() {
           setProgress({ progress: 100, stage: "Scan complete", estimated_seconds_left: 0 });
           setPolling(false);
           setLoading(false);
-          listScans()
+          listScans(user?.id)
             .then((data) => setScanHistory(data.scans))
             .catch(() => {});
         }
@@ -377,7 +377,7 @@ export default function Home() {
         console.error("Poll error (will retry):", err);
       }
     }, 5000);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
   supabase.auth.getSession().then(({ data: { session } }) => {
@@ -402,7 +402,8 @@ export default function Home() {
 }, [router]);
 
   useEffect(() => {
-    listScans().then((data) => {
+    if (!user) return;
+    listScans(user.id).then((data) => {
       const scans = data.scans;
       setScanHistory(scans);
 
@@ -414,7 +415,7 @@ export default function Home() {
         pollScan(runningScan.scan_id);
       }
     }).catch(() => {});
-  }, [pollScan]);
+  }, [pollScan, user]);
 
   useEffect(() => {
     const fetchLimits = async () => {

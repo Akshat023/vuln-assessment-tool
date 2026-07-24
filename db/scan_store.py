@@ -37,6 +37,17 @@ class PostgresScanStore:
             "error":             scan.error,
         }
 
+    def values_by_user(self, user_id: str) -> list:
+        """Return scans for a specific user, ordered by created_at descending."""
+        db = SessionLocal()
+        try:
+            scans = db.query(Scan).filter(
+                Scan.user_id == user_id
+                ).order_by(Scan.created_at.desc()).all()
+            return [self._to_dict(s) for s in scans]
+        finally:
+            db.close()
+
     def __getitem__(self, scan_id: str) -> dict:
         db = SessionLocal()
         try:
