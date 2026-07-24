@@ -14,8 +14,6 @@ import {
   Finding,
 } from "@/lib/api";
 
-const [limits, setLimits] = useState({ scans_remaining: 3, daily_limit: 3 })
-
 const SEVERITY_CONFIG: Record<string, { bg: string; text: string }> = {
   Critical: { bg: "bg-red-900",    text: "text-white" },
   High:     { bg: "bg-red-500",    text: "text-white" },
@@ -342,6 +340,7 @@ function ScanHistory({ scans, onSelect }: { scans: Scan[]; onSelect: (s: Scan) =
 export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [limits, setLimits] = useState({ scans_remaining: 3, daily_limit: 3 })
   const [url, setUrl]                 = useState("");
   const [loading, setLoading]         = useState(false);
   const [currentScan, setCurrentScan] = useState<Scan | null>(null);
